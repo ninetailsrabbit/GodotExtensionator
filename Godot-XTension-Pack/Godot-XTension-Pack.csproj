@@ -9,7 +9,8 @@
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<NoWarn>1591</NoWarn>
+	<NoWarn>1591,1573</NoWarn>
+	  
   </PropertyGroup>
 
 	<PropertyGroup>
@@ -34,7 +35,6 @@
   <ItemGroup>
 	<None Include="../README.md" Pack="true" PackagePath="\" />
 	<None Include="../LICENSE" Pack="true" PackagePath="\" />
-	<Folder Include="src" />
   </ItemGroup>
 
 	<ItemGroup>

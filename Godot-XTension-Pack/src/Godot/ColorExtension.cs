@@ -56,3 +56,5 @@ namespace Godot_XTension_Pack {
             return new Color(rng.RandfRange(0, 1f), rng.RandfRange(0, 1f), rng.RandfRange(0, 1f), alpha / 255f);
         }
     }
+
+}
