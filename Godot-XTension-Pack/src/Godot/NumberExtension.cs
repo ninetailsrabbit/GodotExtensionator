@@ -1,10 +1,8 @@
 ﻿using Godot;
 using Godot.Collections;
-
 using System.Numerics;
+
 namespace Godot_XTension_Pack {
-
-
     public static partial class NumberExtension {
 
         private static readonly RandomNumberGenerator _rng = new();
