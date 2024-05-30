@@ -1,12 +1,11 @@
-﻿namespace Godot_XTension_Pack.src.General {
+﻿namespace Godot_XTension_Pack {
     public static class EnumExtension {
 
         /// <summary>
         /// Gets a random value from the specified enum type. 
-        /// Example: EnumExtension.RandomEnum<Input.MouseModeEnum>()
+        /// Example: EnumExtension.RandomEnum&lt;Input.MouseModeEnum&gt;()
         /// </summary>
         /// <typeparam name="T">The enum type to get a random value from.</typeparam>
-        /// <param name="enumType">The enum type.</param>
         /// <returns>A random enum value of type T.</returns>
         public static T RandomEnum<T>() {
             T[] values = (T[])Enum.GetValues(typeof(T));
@@ -21,9 +20,8 @@
         /// Example: Input.MouseModeEnum.Visible.Random()
         /// </summary>
         /// <typeparam name="T">The enum type to get a random value from.</typeparam>
-        /// <param name="self">A placeholder parameter for the extension method (ignored).</param>
         /// <returns>A random enum value of type T.</returns>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if T is not a struct or an Enum.</typeparam>
+        /// <exception cref="ArgumentException">Throws an ArgumentException if T is not a struct or an Enum</exception>
         public static T RandomEnum<T>(this T _) where T : struct, Enum {
             T[] values = Enum.GetValues<T>();
 

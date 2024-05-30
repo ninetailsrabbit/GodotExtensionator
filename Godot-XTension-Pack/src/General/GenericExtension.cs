@@ -23,7 +23,7 @@
         /// <param name="values">A collection of possible values.</param>
         /// <returns>True if the value is found in the collection; otherwise, false.</returns>
         /// <remarks>
-        /// This overload uses the `Contains` method of an `IEnumerable<T>` to allow for various collection types.
+        /// This overload uses the `Contains` method of an `IEnumerable&lt;T&gt;` to allow for various collection types.
         /// It works with both value types (`struct`) and reference types (`class`).
         /// </remarks>
         public static bool In<T>(this T val, IEnumerable<T> values) where T : struct {

@@ -5,6 +5,49 @@
     <RootNamespace>Godot_XTension_Pack</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<EnableDynamicLoading>true</EnableDynamicLoading>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
+		<Version>0.1.0</Version>
+		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
+		<Copyright>© 2024 Ninetailsrabbit</Copyright>
+		<Authors>Ninetailsrabbit</Authors>
+		<Company>Ninetailsrabbit</Company>
+
+		<PackageId>Ninetailsrabbit.Godot_XTension_Pack</PackageId>
+		<PackageReleaseNotes>Ninetailsrabbit.Godot_XTension_Pack release.</PackageReleaseNotes>
+		<PackageTags />
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl></PackageProjectUrl>
+
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/ninetailsrabbit/Godot-Xtension-Pack</RepositoryUrl>
+	</PropertyGroup>
+	
+  <ItemGroup>
+	<None Include="../README.md" Pack="true" PackagePath="\" />
+	<None Include="../LICENSE" Pack="true" PackagePath="\" />
+    <Folder Include="src\Godot\" />
+	<Folder Include="src\General\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<!-- Dependencies go here. -->
+		<PackageReference Include="IsExternalInit" Version="1.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SauceControl.InheritDoc" Version="2.0.1">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="GodotSharp" Version="4.2.2" />
+	</ItemGroup>
 
 </Project>
