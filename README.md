@@ -25,8 +25,18 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [Control](#control)
     - [Input](#input)
     - [Math](#math)
-  - [Functionalities that are not extended](#functionalities-that-are-not-extended)
+    - [String](#string)
+    - [Mesh](#mesh)
+    - [Node](#node)
+    - [Node2D](#node2d)
+    - [Node 3D](#node-3d)
+    - [Scene Tree](#scene-tree)
     - [OSExtension](#osextension)
+    - [Polygon2D](#polygon2d)
+    - [Rect2](#rect2)
+    - [Texture](#texture)
+  - [Functionalities that are not extended](#functionalities-that-are-not-extended)
+    - [OSExtension](#osextension-1)
     - [Get autoload singleton on any place](#get-autoload-singleton-on-any-place)
     - [Getting random enum values](#getting-random-enum-values)
     - [Getting a random color](#getting-a-random-color)
@@ -323,6 +333,324 @@ FactorialsFrom(7) // [1, 1, 2, 6, 24, 120, 720, 5040]
 
 // With milliseconds
 123.456.ToFormattedSeconds(true) // Result: "02:03:45"
+```
+
+### String
+
+This extensions provides helpful functions for manipulate or generate strings.
+
+```csharp
+
+// Detect if a url is valid
+"https://google.es".IsValidUrl() // true
+"http://api.local.dev".IsValidUrl() // true
+"api.local.dev".IsValidUrl() // false
+
+// Strip the BBCode from a text
+"game [color=yellow]development[/color] it's hard".StripBBcode() // game development is hard
+
+// Removes any text starting with "res://" followed by one or more non-space characters.
+"res://assets/icons".StripGodotPath() // "assets/icons/"
+"res ://  assets/icons".StripGodotPath() // "assets/icons/"
+
+// Shortcuts for string.IsNullOrEmpty and string.IsNullOrWhitespace
+"".IsNullOrEmpty() // true
+" ".IsNullOrWhitespace() // true
+
+
+// Check if the absolute file path is valid and the resource exists
+
+"res://skills/resources/fire.tres".FilePathIsValid() // true
+"resources/fire.tres".FilePathIsValid() // false, the path needs to be absolute
+
+// Check if the absolute dir path is valid
+
+"res://skills/resources".DirPathIsValid() // true
+"resources".DirPathIsValid() // false, the path needs to be absolute
+
+// Check if the directory exists on the godot executable path
+
+"user://game/settings.ini".DirExistOnExecutablePath() // true if the executable is on "user://game" on the running computer.
+
+// Shorcut to check equality ignoring case
+".PNg".EqualsIgnoreCase(".png") // true
+"Björk".EqualsCultureIgnoreCase("bjOrk") // true
+
+
+
+```
+
+### Mesh
+
+Methods to shortcut some operations with meshes
+
+```csharp
+
+// If no Mesh shape is defined yet, a Vector3.Zero is returned.
+
+public Vector3 RandomSurfacePosition(MeshInstance3D meshInstance) {
+
+    // Returns a random point in the mesh surface
+    return meshInstance.GetRandomSurfacePosition();
+
+    // Can be used on Mesh class
+    return meshInstance.Mesh.GetRandomSurfacePosition();
+}
+
+// Syntatic sugar to detect the mesh shape
+meshInstance.HasMesh();
+```
+
+### Node
+
+All the Godot nodes can use this extension methods, below you have the specific definitions for 2D and 3D ones.
+
+```csharp
+// Change the process mode easily with:
+node.Enable()
+node.Disable()
+node.AlwaysProcess()
+node.ProcessWhenPaused()
+
+// Shortcut to get autoload nodes from the root
+
+public partial class MySceneNode : Node {
+
+  public GameGlobals GameGlobals;
+
+  public override void _Ready() {
+      GameGlobals = this.GetAutoloadNode<GameGlobals>();
+      // You can pass a string name if the class name is not the same as the node name
+      GameGlobals = this.GetAutoloadNode<GameGlobals>("RootGameGlobals");
+  }
+}
+
+// Get children nodes recursively of custom class
+var cells = node.GetNodesByClass<GridCell>();
+
+// Get children nodes recursively of Godot type
+var sprites = node.GetNodesByType<Sprite3D>();
+
+// Get the first encountered node of custom class
+node.FirstNodeOfClass<Board>();
+
+// Get the first encountered node of Godot type
+node.FirstNodeOfType<AnimatedSprite2D>();
+
+
+// Retrieves the last child of this node or null
+node.GetLastChild();
+
+// Get all the ancestors from the node
+node.GetAllAncestors();
+
+// Get only the ancestors from the node
+node.GetAllAncestors<Node2D>();
+
+// Get all the childrens recursively from the node
+node.GetAllChildren();
+
+// Get all the childrens recursively of the type defined from the node
+node.GetAllChildren<MeshInstance2D>();
+
+//Check if a node is valid to apply operations on it.
+node.IsValid();
+
+// Remove a node safely
+// Takes into account if it is not queued for deletion, if it is within the scene tree, etc.
+
+node.Remove();
+
+// Remove and queue free children, uses the above safely remove.
+node.RemoveAndQueueFreeChildren();
+
+// Queue free children, uses the above safely remove.
+node.QueueFreeChildren();
+
+// Shortcut to set owner to edited scene root, useful for tool scripts
+node.SetOwnerToEditedSceneRoot();
+
+// Get the current tree depth for the node
+node.GetTreeDepth(); // 2 means that has 2 parents above until the root scene where it lives.
+
+// Emit a signal safe only if exists without raising errors.
+node.EmitSignalSafe();
+```
+
+### Node2D
+
+```csharp
+var sprite = new Sprite2D();
+var anotherSprite = new Sprite2D();
+
+// Get the current direction from this node to the mouse in the screen.
+sprite.GetMouseDirection();
+
+// Shortcuts for distance calculations
+sprite.GlobalDistanceTo(anotherSprite);
+sprite.LocalDistanceTo(anotherSprite);
+
+// Shortcuts for direction calculations
+sprite.GlobalDirectionTo(anotherSprite);
+sprite.LocalDirectionTo(anotherSprite);
+
+// Godot offers two types of z-index behavior:
+//Relative: The z-index only affects the layering within its immediate parent node.
+
+//Absolute: The z-index is considered relative to the entire scene root, making it independent of parent nodes.
+
+//While individual nodes have their own z-index values, the function calculates the absolute z-index, which reflects the node's final position in the overall stacking order.
+//By knowing the absolute z-index, you can ensure that specific nodes are always drawn on top of others, regardless of their parent-child relationships
+
+// Get the absolute z-index for this node on the screen while the parent node has Z as relative.
+sprite.GetAbsoluteZIndex();
+
+
+// Get nearest node by distance
+
+// These functions help you locate nodes within a specific distance range relative to a given point.
+// Null is returned if no node was found in the selected distance
+
+// Default distance range is between 0 and 9999
+Node? nearestNode = sprite.GetNearestNodeByDistance([anotherSprite, Marker, OtherNode]);
+
+// Define the distance range to check
+Node? nearestNode = sprite.GetNearestNodeByDistance([anotherSprite, Marker, OtherNode], 30f, 1500f);
+
+// Same to get farthest node
+Node? nearestNode = sprite.GetFarthestNodeByDistance([anotherSprite, Marker, OtherNode]);
+Node? nearestNode = sprite.GetFarthestNodeByDistance([anotherSprite, Marker, OtherNode], 30f, 1500f);
+
+// Screen position in world coordinates
+sprite.ScreenPosition() // Vector2(250, 100)
+
+// Detects if the node is on the current visible in-game screen.
+sprite.OnScreen()// true or false
+
+// An optional margin (in pixels) to consider around the screen edges (default: 16.0f)
+sprite.OnScreen(32f) // true or false
+
+```
+
+### Node 3D
+
+Has available all the above `Node2D` methods except for the screen position ones.
+
+```csharp
+// You can detect if the current node 3D is facing another node
+
+GetNode<MeshInstance3D>("MeshInTheWorld").IsFacing(otherNode3D);
+
+```
+
+### Scene Tree
+
+```csharp
+//The node extension actually uses the method from SceneTree to get autoload nodes so you can use this method from the tree.
+
+public partial class MySceneNode : Node {
+
+  public GameGlobals GameGlobals;
+
+  public override void _Ready() {
+      GameGlobals = this.GetTree().GetAutoloadNode<GameGlobals>();
+      // You can pass a string name if the class name is not the same as the node name
+      GameGlobals = this.GetTree().GetAutoloadNode<GameGlobals>("RootGameGlobals");
+  }
+}
+
+//Shortcut to remove nodes safely from group
+var tree = GetTree();
+
+tree.RemoveNodesFromGroup("bullets");
+
+// You can use this shorcut to await for the next frame to be processed
+await tree.NextIdle // Process
+await tree.NextPhysicsIdle //Physic Process
+
+
+// Run a frame freeze effect in your game from the tree
+tree.FrameFreeze(0.5f, 1.5f); // Slow on 0.5 time scale for 1.5 seconds
+
+// Don't apply time scale changes on AudioServer
+tree.FrameFreeze(0.5f, 1.5f, false);
+
+// Gets the final transformation applied to the root node of the SceneTree, Useful to fix mouse handling when viewport it's stretched
+
+tree.FinalTransform(); // Returns Transform2D
+
+// Methods to quit, pause or resume the game.
+tree.QuitGame();
+tree.PauseGame();
+tree.ResumeGame();
+```
+
+### OSExtension
+
+General utilities that does not belongs to a particular place or uses `OS` singleton
+
+```csharp
+// Detect if the current build is running on a mobile
+OSExtension.IsMobile();
+
+// Detect if the current build is running on a SteamDeck
+OSExtension.IsSteamDeck();
+
+// Detect if multi threading is enabled on this project
+OSExtension.IsMultithreadingEnabled();
+
+// Open a external link if the url is valid. The url is encoded before opening it when web platform is detected
+OSExtension.OpenExternalLink("https://github.com/ninetailsrabbit");
+
+// Generate a random ID using the current unix time
+OSExtension.GenerateRandomIdFromUnixTime();
+```
+
+### Polygon2D
+
+Shortcuts to draw basic geometry shapes more quickly in a polygon.
+The polygon points are cleared each time an extension function is called so only once shape can be draw each time.
+
+```csharp
+
+var polygon = new Polygon2D();
+
+polygon.Circle();
+polygon.PartialCircle();
+polygon.Donut();
+polygon.Rectangle();
+polygon.RoundedRectangle();
+
+```
+
+### Rect2
+
+Useful extensions to work with Rectangles
+
+```csharp
+var sprite = GetNode<Sprite2D>("Map");
+var rect2 = sprite.texture.GetImage().GetUsedRect();
+
+Vector2 mapPoint = rect2.RandomPoint();
+```
+
+### Texture
+
+Useful methods to work with texture dimensions
+
+```csharp
+// Shortcut to get the Rect from a texture
+sprite.texture.Dimensions();
+
+// Gets the scaled dimensions of a TextureRect considering the texture's used rectangle and the scale applied.
+var textureRect = new TextureRect(){Texture = "image.png"};
+textureRect.Dimensions();
+
+// This can used also on sprites
+sprite.Dimensions();
+
+// Get the real png Rect2I from png texture ignoring the transparent pixels. If the extension of the texture is not png, a Rect2 zero is returned.
+textureRect.texture.GetPngRect();
 
 ```
 

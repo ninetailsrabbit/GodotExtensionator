@@ -62,7 +62,7 @@ namespace Godot_XTension_Pack {
         /// <remarks>
         /// This function analyzes a Texture2D to determine the rectangular area occupied by non-transparent pixels, assuming the texture data is loaded from a PNG image. It iterates through each pixel of the image and checks the alpha channel value. If the alpha is greater than zero (not transparent), it updates the boundaries of the rectangle that contains all non-transparent pixels. This approach works well for PNG images where transparency is typically encoded in the alpha channel. If the provided texture is null or not a PNG image, the function returns a zero-sized Rect2I.
         /// </remarks>
-        public static Rect2I GetPngRectFromTexture(this Texture2D texture) {
+        public static Rect2I GetPngRect(this Texture2D texture) {
 
             Image image = texture.GetImage();
 
