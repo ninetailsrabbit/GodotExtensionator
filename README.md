@@ -19,13 +19,18 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [.csproj](#csproj)
     - [Installation via CLI](#installation-via-cli)
   - [Usage](#usage)
-    - [Exceptions](#exceptions)
-      - [OSExtension](#osextension)
-      - [Get autoload singleton on any place](#get-autoload-singleton-on-any-place)
-      - [Getting random enum values](#getting-random-enum-values)
-      - [Input related methods](#input-related-methods)
-      - [Common use characters](#common-use-characters)
-      - [Mathematical constants](#mathematical-constants)
+    - [AudioStreamPlayer](#audiostreamplayer)
+    - [Camera 3D](#camera-3d)
+    - [Color](#color)
+    - [Control](#control)
+  - [Functionalities that are not extended](#functionalities-that-are-not-extended)
+    - [OSExtension](#osextension)
+    - [Get autoload singleton on any place](#get-autoload-singleton-on-any-place)
+    - [Getting random enum values](#getting-random-enum-values)
+    - [Getting a random color](#getting-a-random-color)
+    - [Input related methods](#input-related-methods)
+    - [Common use characters](#common-use-characters)
+    - [Mathematical constants](#mathematical-constants)
 
 ## Getting started
 
@@ -63,7 +68,112 @@ nuget install Ninetailsrabbit.Godot_XTension_Pack -Version 0.1.0
 
 Since these functions are C# extension methods, they become available directly on the types they extend. You only need to call them on instances of those types in your code, simplifying the syntax
 
-### Exceptions
+### AudioStreamPlayer
+
+These extension methods offer convenient ways to manipulate audio streams with features like pitch adjustment and ease curves. Their functionality is identical for both `AudioStreamPlayer2D` and `AudioStreamPlayer3D` nodes.
+
+If an `AudioStreamPlayer` instance doesn't have an attached `AudioStream`, calling these extension methods will not produce any effect _(no playback or modification)_. Additionally, no errors will be thrown in this scenario.
+
+```csharp
+public partial class MyScene : Node {
+
+  public AudioStreamPlayer audioPlayer;
+
+  public override void _Ready() {
+    audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+
+    // A pitch scale of 1.2f
+    audioPlayer.PlayWithPitch(1.2f);
+    // A random value from the range provided
+    audioPlayer.PlayWithPitchRange(.9f, 1.2f);
+
+    //Play the sound or music smoothly setting the duration until reach the player bus volume
+    audioPlayer.PlayEase(1.5f);
+
+    //First parameter is the duration in this case.
+    audioPlayer.PlayEaseWithPitch(1.5f, 1.2f);
+    audioPlayer.PlayEaseWithPitchRange(1.5f, .9f, 1.2f);
+
+    //Shortcut to check if an audio player has an stream.
+    audioPlayer.HasStream(); // true or false
+  }
+
+}
+
+```
+
+### Camera 3D
+
+Mostly shorcuts to access common information when using 3D cameras
+
+```csharp
+public partial class MyScene : Node {
+
+  public override void _Ready() {
+    Camera3D camera = GetViewport().Camera3D();
+
+    // / Gets the world-space origin of the ray projected from the center of the camera's viewport
+    Vector3 center = camera.CenterByRayOrigin();
+
+    // A shortcut for camera.GlobalTransform.Origin
+    Vector3 center = camera.CenterByOrigin();
+
+    // Retrieves the current forward direction where the camera is looking at
+    // Useful for example to throw objects in the direction the camera is facing.
+    Vector3 forwardDirection = camera.ForwardDirection();
+
+    // If you want to detect whether an object is looking in the direction of the camera
+    camera.IsFacingCamera(other3DNode); // true or false
+  }
+
+}
+```
+
+### Color
+
+If you want to manage colours through code here are some functions that will be useful for you
+
+```csharp
+  var green = Colors.Green;
+  var blue = Colors.Blue;
+
+  // Returns the color in Vector3(r, g, b) format
+  color.Vector3();
+
+  // Returns the color with transparency value in Vector3(r, g, b, a) format
+  color.Vector4();
+
+  // Same as above but in HSV format Vector3(h, s, v)
+  color.Vector3Hsv();
+  color.Vector4Hsv(); // Vector3(h, s, v, a)
+
+  //Checks if two colors are considered similar within a specified tolerance
+  green.SimilarTo(blue, 95);
+
+```
+
+### Control
+
+Simply extensions for nodes that inherit from `Control`
+
+```csharp
+public partial class MyUIScene : Control {
+
+  public override void _Ready() {
+      // Centers the current pivot offset
+      this.CenterPivotOffset();
+
+      // Change the mouse filters quickly
+      this.IgnoreMouseEvents();
+      this.StopMouseEvents();
+      this.PassMouseEvents();
+  }
+
+}
+
+```
+
+## Functionalities that are not extended
 
 Some extension variables or methods does not need an instance to be used. This means you can call them directly using the type name without needing an instance of the type. These are typically utility methods that don't require specific object state.
 
@@ -89,6 +199,13 @@ SceneTreeExtension.GetAutoloadSingleton<MusicManager>();
 
 ```csharp
 EnumExtension.RandomEnum(Input.MouseModeEnum);
+```
+
+#### Getting a random color
+
+```csharp
+//A random color that can receive alpha as parameter where 255 is no transparency and 0 fully transparent.
+ColorExtension.RandomColor(255);
 ```
 
 #### Input related methods
