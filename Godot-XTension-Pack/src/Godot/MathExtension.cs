@@ -2,9 +2,10 @@
 using Godot.Collections;
 using System.Numerics;
 
-namespace Godot_XTension_Pack {
-    public static partial class NumberExtension {
-
+namespace Godot_XTension_Pack
+{
+    public static partial class MathExtension
+    {
         private static readonly RandomNumberGenerator _rng = new();
 
         public static readonly float COMMON_EPSILON = 0.000001f;  // 1.0e-6
@@ -56,7 +57,8 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="degreesAngle">The angle in degrees to normalize.</param>
         /// <returns>The normalized angle between 0 and 360 degrees.</returns>
-        public static float NormalizeDegreesAngle(this float degreesAngle) {
+        public static float NormalizeDegreesAngle(this float degreesAngle)
+        {
             float fullCircleAngle = Mathf.RadToDeg(Mathf.Tau);
 
             return (degreesAngle % fullCircleAngle + fullCircleAngle) % fullCircleAngle;
@@ -67,7 +69,8 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="angle">The angle in radians to normalize.</param>
         /// <returns>The normalized angle between 0 and 2 * PI radians.</returns>
-        public static float NormalizeRadiansAngle(this float angle) {
+        public static float NormalizeRadiansAngle(this float angle)
+        {
             return (angle % Mathf.Tau + Mathf.Tau) % Mathf.Tau;
         }
 
@@ -79,7 +82,8 @@ namespace Godot_XTension_Pack {
         /// <param name="max">The maximum value of the range.</param>
         /// <param name="inclusive">Optional flag indicating whether the range includes the minimum and maximum values (default: true).</param>
         /// <returns>True if the value is between min and max (inclusive or exclusive based on the flag), False otherwise.</returns>
-        public static bool IsBetween(this int value, int min, int max, bool inclusive = true) {
+        public static bool IsBetween(this int value, int min, int max, bool inclusive = true)
+        {
             int minValue = Mathf.Min(min, max);
             int maxValue = Mathf.Max(min, max);
 
@@ -95,7 +99,8 @@ namespace Godot_XTension_Pack {
         /// <param name="inclusive">Optional flag indicating whether the range includes the minimum and maximum values (default: true).</param>
         /// <param name="precision">Optional precision value to account for floating-point rounding errors (default: 0.00001f).</param>
         /// <returns>True if the value is between min and max (inclusive or exclusive based on the flag), False otherwise.</returns>
-        public static bool IsBetween(this float value, float min, float max, bool inclusive = true, float precision = 0.00001f) {
+        public static bool IsBetween(this float value, float min, float max, bool inclusive = true, float precision = 0.00001f)
+        {
             float minValue = Mathf.Min(min, max) - precision;
             float maxValue = Mathf.Max(min, max) + precision;
 
@@ -107,11 +112,13 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="value">The integer value to convert.</param>
         /// <returns>The hexadecimal string representation of the integer.</returns>
-        public static string Hexadecimal(this int value) {
+        public static string Hexadecimal(this int value)
+        {
             int remaining = value;
             string hexString = string.Empty;
 
-            while (remaining > 0) {
+            while (remaining > 0)
+            {
                 int remainderHex = remaining % 16;
                 hexString = StringExtension.HEX_CHARACTERS[remainderHex] + hexString;
                 remaining /= 16;
@@ -126,12 +133,14 @@ namespace Godot_XTension_Pack {
         /// <param name="value">The integer value to format.</param>
         /// <param name="separator">Optional character to use as the thousand separator (default: comma).</param>
         /// <returns>The formatted string with thousand separators.</returns>
-        public static string ThousandSeparator(this int value, string separator = ",") {
+        public static string ThousandSeparator(this int value, string separator = ",")
+        {
             string numberAsText = value.ToString();
             float mod = numberAsText.Length % 3;
             string result = string.Empty;
 
-            foreach (int index in Enumerable.Range(0, numberAsText.Length)) {
+            foreach (int index in Enumerable.Range(0, numberAsText.Length))
+            {
                 if (index != 0 && index % 3 == mod)
                     result += separator;
 
@@ -146,20 +155,26 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The int value to be rounded.</param>
         /// <returns>The rounded int value based on its magnitude.</returns>
-        public static BigInteger BigRound(this BigInteger number) {
-            if (number >= 1000000000000) {
+        public static BigInteger BigRound(this BigInteger number)
+        {
+            if (number >= 1000000000000)
+            {
                 return (int)((int)Math.Floor((double)number / 1000000000000) * 1000000000000);
             }
-            else if (number >= 1000000000) {
+            else if (number >= 1000000000)
+            {
                 return (int)Math.Floor((double)number / 1000000000) * 1000000000;
             }
-            else if (number >= 10000000) {
+            else if (number >= 10000000)
+            {
                 return (int)Math.Floor((double)number / 1000000) * 1000000;
             }
-            else if (number >= 10000) {
+            else if (number >= 10000)
+            {
                 return (int)Math.Floor((double)number / 1000) * 1000;
             }
-            else {
+            else
+            {
                 return number;
             }
         }
@@ -169,20 +184,26 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The float value to be rounded.</param>
         /// <returns>The rounded float value based on its magnitude.</returns>
-        public static float BigRound(this float number) {
-            if (number >= 1000000000000) {
+        public static float BigRound(this float number)
+        {
+            if (number >= 1000000000000)
+            {
                 return (int)((int)Math.Floor((double)number / 1000000000000) * 1000000000000);
             }
-            else if (number >= 1000000000) {
+            else if (number >= 1000000000)
+            {
                 return (int)Math.Floor((double)number / 1000000000) * 1000000000;
             }
-            else if (number >= 10000000) {
+            else if (number >= 10000000)
+            {
                 return (int)Math.Floor((double)number / 1000000) * 1000000;
             }
-            else if (number >= 10000) {
+            else if (number >= 10000)
+            {
                 return (int)Math.Floor((double)number / 1000) * 1000;
             }
-            else {
+            else
+            {
                 return number;
             }
         }
@@ -193,7 +214,8 @@ namespace Godot_XTension_Pack {
         /// <param name="number">The float value to be biased.</param>
         /// <param name="bias">The bias value influencing the output (0 for no bias, 1 for full bias).</param>
         /// <returns>The biased float value.</returns>
-        public static float Bias(this float number, float bias) {
+        public static float Bias(this float number, float bias)
+        {
             float k = Mathf.Pow(1.0f - bias, 3);
 
             return (number * k) / (number * k - number + 1);
@@ -205,7 +227,8 @@ namespace Godot_XTension_Pack {
         /// <param name="number">The float value to be processed by the sigmoid function.</param>
         /// <param name="scalingFactor">Optional scaling factor affecting the steepness of the curve (default: 0, no scaling).</param>
         /// <returns>The sigmoid value of the input number.</returns>
-        public static float Sigmoid(this float number, float scalingFactor = 0.0f) {
+        public static float Sigmoid(this float number, float scalingFactor = 0.0f)
+        {
             if (scalingFactor.IsZero())
                 return 1 / (1 + Mathf.Exp(-number));
 
@@ -218,14 +241,16 @@ namespace Godot_XTension_Pack {
         /// <param name="number">The non-negative integer for which to calculate the factorial.</param>
         /// <returns>The factorial value of the number (0! = 1, 1! = 1, n! = n * (n-1)!).</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws if the number is negative.</exception>
-        public static int Factorial(this int number) {
+        public static int Factorial(this int number)
+        {
             if (number.IsZero() || number == 1)
                 return 1;
 
             return number * Factorial(number - 1);
         }
 
-        public static float Factorial(this float number) {
+        public static float Factorial(this float number)
+        {
             if (number.IsZero() || number == 1)
                 return 1;
 
@@ -237,7 +262,8 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The starting integer from which to calculate factorials.</param>
         /// <returns>An array containing factorials for all integers from 'number' onwards.</returns>
-        public static Array<float> FactorialsFrom(this int number) {
+        public static Array<float> FactorialsFrom(this int number)
+        {
             Array<float> result = [];
 
             foreach (float index in GD.Range(number + 1))
@@ -251,7 +277,8 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The non-negative integer to convert (negative values are converted to absolute values).</param>
         /// <returns>The Roman numeral string representation of the input number, or an empty string if the input is zero.</returns>
-        public static string ToRomanNumber(this int number) {
+        public static string ToRomanNumber(this int number)
+        {
             number = Mathf.Abs(number);
 
             string[] romanDigits = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
@@ -274,7 +301,8 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The integer to convert.</param>
         /// <returns>A string representing the ordinal form of the number.</returns>
-        public static string ToOrdinal(this int number) {
+        public static string ToOrdinal(this int number)
+        {
             int middle = number % 100;
             string suffix;
 
@@ -305,14 +333,16 @@ namespace Godot_XTension_Pack {
         /// <param name="suffixes">Optional array of suffixes for different magnitude levels (defaults to ["", "K", "M", "B", "T"]). 
         /// If null, default suffixes are used.</param>
         /// <returns>A string representing the number in a human-readable format with a magnitude suffix (if applicable).</returns>
-        public static string PrettyNumber(this float number, string[]? suffixes = null) {
+        public static string PrettyNumber(this float number, string[]? suffixes = null)
+        {
             suffixes ??= ["", "K", "M", "B", "T"];
             number = Mathf.Abs(number);
 
             string prefixSign = Mathf.Sign(number) == -1 ? "-" : "";
             int exponent = 0;
 
-            while (number >= 1000) {
+            while (number >= 1000)
+            {
                 number /= 1000.0f;
                 exponent += 1;
             }
@@ -325,13 +355,15 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="number">The integer to convert.</param>
         /// <returns>A string representing the binary form of the integer.</returns>
-        public static string ToBinary(this int number) {
+        public static string ToBinary(this int number)
+        {
 
             string binaryString = string.Empty;
             int numberToTransform = number;
 
 
-            while (numberToTransform.IsGreaterThanZero()) {
+            while (numberToTransform.IsGreaterThanZero())
+            {
                 binaryString = $"{numberToTransform & 1}" + binaryString;
                 numberToTransform >>= 1;
             }
@@ -345,7 +377,8 @@ namespace Godot_XTension_Pack {
         /// <param name="time">The time value in seconds.</param>
         /// <param name="useMilliseconds">True to include milliseconds in the output format, False for minutes and seconds only (default).</param>
         /// <returns>A string representing the formatted time in minutes:seconds or minutes:seconds:milliseconds.</returns>
-        public static string ToFormattedSeconds(this float time, bool useMilliseconds = false) {
+        public static string ToFormattedSeconds(this float time, bool useMilliseconds = false)
+        {
             int minutes = (int)Math.Floor(time / 60);
             int seconds = (int)(time % 60);
 
