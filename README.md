@@ -23,6 +23,8 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [Camera 3D](#camera-3d)
     - [Color](#color)
     - [Control](#control)
+    - [Input](#input)
+    - [Math](#math)
   - [Functionalities that are not extended](#functionalities-that-are-not-extended)
     - [OSExtension](#osextension)
     - [Get autoload singleton on any place](#get-autoload-singleton-on-any-place)
@@ -62,6 +64,9 @@ nuget install Ninetailsrabbit.Godot_XTension_Pack
 # Or choosing version
 
 nuget install Ninetailsrabbit.Godot_XTension_Pack -Version 0.1.0
+
+# Using dotnet
+dotnet add package Ninetailsrabbit.Godot_XTension_Pack --version 0.1.0
 ```
 
 ## Usage
@@ -170,6 +175,154 @@ public partial class MyUIScene : Control {
   }
 
 }
+
+```
+
+### Input
+
+Helpers to detect inputs in your game more easily and make them readable for humans.
+
+```csharp
+public override _Input(InputEvent @event) {
+
+  // Detect if mouse button is clicked (one press)
+  @event.IsMouseRightClick();
+  @event.IsMouseLeftClick();
+
+  // Detect if mouse button keeps pressed.
+  @event.IsMouseRightButtonPressed();
+  @event.IsMouseLeftButtonPressed();
+
+  // Detect if the input was made on a gamepad.
+  @event.IsControllerButton();
+  @event.IsControllerAxis();
+  @event.IsGamepadInput();
+
+  // Detect if a numeric key is pressed (include numpad keys)
+  @event.NumericKeyPressed();
+
+  // Return the key on human readable format
+  // Ctrl + X, Alt + Shift + 1 ...
+  @event.ReadableKey()
+
+  // Or You can do manually check or run directly from InputEvent
+  if (@event is InputEventKey eventKey) {
+    event.ReadableKey();
+  }
+}
+
+```
+
+### Math
+
+Includes a lot of useful functions to speed up common calculations on game development. It uses the `Mathf` class from Godot so it's not full pure C#.
+
+```csharp
+// Normalize a float that represents an angle so it never goes beyond a full circle range.
+720.NormalizeDegreesAngle(); // Becomes 360
+12.56.NormalizeRadiansAngle() // Becomes TAU or 6.28..
+
+
+// Syntactic sugar for check simple ranges. By default the min & max are inclusive
+5.IsBetween(2, 6) // True
+5.IsBetween(6, 2) // It works on the opposite way too
+5.IsBetween(3, 5, false) // False, not inclusive
+7.5f.IsBetween(7.6f, 12f) // False
+
+// Convert an integer into his hexadecimal representation
+13531865.Hexadecimal() //CE7AD9
+"CE7AD9".DecimalFromHex() // This is part of StringExtension
+
+
+// Separate a big number, the default separator it's a comma ","
+1200000000.ThousandSeparator(".") // 1.200.000.000
+
+// Round big numbers
+1234567890.BigRound()  // Output: 1000000000
+987654321.BigRound()  // Output: 987000000
+
+
+// Applies a bias to a float value using a cubic function. It receives a factor between 0 and 1 and by adjusting the bias value, you can control for example, how much the dice is skewed towards higher numbers. A bias of 0.5 would result in a fair die roll. A bias closer to 1 would make it more likely to roll higher numbers
+
+int diceSides = 6;
+var randomValue = GD.Randf();
+var biasedValue = randomValue.Bias(0.7f)
+
+int rolledValue = Mathf.Floor(biasedValue * diceSides) + 1;
+
+// The sigmoid function acts like a translator, taking any real number (x) as input and transforming it into a value between 0 and 1 (but never exactly 0 or 1). Think of it as a dimmer switch for number.
+
+//The scaling factor allows you to adjust the steepness of the sigmoid curve, controlling how quickly it transitions between its output values of 0 and 1. This can be helpful for fine-tuning the behavior of the sigmoid function in different applications.
+
+150.Sigmoid();
+3500.Sigmoid(1.2f); // 1.2 scaling factor
+
+
+// This function calculates the factorial of a given non-negative integer number and it uses a recursive approach
+5.Factorial() // 120 --> 5! = 5 * 4 * 3 * 2 * 1
+
+FactorialsFrom(5) // [1, 1, 2, 6, 24, 120]
+/*
+0! = 1 (by definition)
+1! = 1 (by definition)
+2! = 2 * 1 = 2
+3! = 3 * 2 * 1 = 6
+4! = 4 * 3 * 2 * 1 = 24
+5! = 5 * 4 * 3 * 2 * 1 = 120
+*/
+
+FactorialsFrom(7) // [1, 1, 2, 6, 24, 120, 720, 5040]
+
+// Conversions for Roman Numbers, only works for integers
+
+// Integer to Roman Numeral Examples:
+3.ToRomanNumber()  // III
+47.ToRomanNumber()  // XLVII
+1999.ToRomanNumber() // MCMXCIX
+3549.ToRomanNumber() // MMMDXLIX
+2024.ToRomanNumber() // MMXXIV
+
+// Roman Numeral to Integer Examples (this is part from the StringExtension):
+"III".RomanNumberToInteger() // 3
+"XLVII".RomanNumberToInteger() // 47
+"MCMXCIX".RomanNumberToInteger() // 1999
+"MMMDXLIX".RomanNumberToInteger() // 3549
+"MMXXIV".RomanNumberToInteger() // 2024
+
+// Convert a number into its ordinal representation
+// Useful for display position on leaderboards
+1.ToOrdinal() // 1st
+2.ToOrdinal() // 2nd
+3.ToOrdinal() // 3rd
+4.ToOrdinal() // 4th
+21.ToOrdinal() //Output: 21st
+32.ToOrdinal() //Output: 32nd
+43.ToOrdinal() //Output: 43rd
+54.ToOrdinal() //Output: 54th
+101.ToOrdinal() //Output: 101st
+111.ToOrdinal() //Output: 111th
+212.ToOrdinal()
+
+//Human readable format for big numbers
+1234.56.PrettyNumber() // 1.2K
+1234567.89.PrettyNumber() // 1.2M
+1234567890.123.PrettyNumber() // 1.2B
+
+// It allows to pass more suffixes in string[] format. They are sorted by exponent, so later suffixes are applied on larger exponents
+1234567890.123.PrettyNumber(["", "K", "M", "BL", "T"]) // 1.2BL
+
+// Binary string representation of a number
+5.ToBinary() // "101"
+13.ToBinary() // "1101"
+255.ToBinary() // "11111111"
+
+// Formatted seconds, A string representation of the formatted time in the format "MM:SS" or "MM:SS:mm", depending on the value of UseMilliseconds
+
+// Without milliseconds
+123.456.ToFormattedSeconds() // Result: "02:03"
+
+// With milliseconds
+123.456.ToFormattedSeconds(true) // Result: "02:03:45"
 
 ```
 

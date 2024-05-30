@@ -123,6 +123,26 @@ namespace Godot_XTension_Pack {
 
 
         /// <summary>
+        /// Converts an InputEvent object into a human-readable string representation with modifiers.
+        /// </summary>
+        /// <param name="event">The InputEventKey object to convert.</param>
+        /// <returns>A string representing the key and its modifiers (e.g., "Ctrl+Shift+A").</returns>
+        /// <remarks>
+        /// This extension method takes an `InputEventKey` object and transforms it into a more user-friendly string format. It handles two cases:
+        ///   - If the `Keycode` property of the `InputEventKey` is `Key.None`, it assumes the key represents a physical key with potential modifiers. It then calls `GetPhysicalKeycodeWithModifiers` to retrieve the actual keycode and modifiers.
+        ///   - If the `Keycode` property is not `Key.None`, it assumes the key represents a logical key with modifiers already included. It directly calls `GetKeycodeWithModifiers` to get the combined representation.
+        /// 
+        /// In both cases, the retrieved keycode with modifiers is then converted to a string using `OS.GetKeycodeString`. Finally, it replaces all "+" characters with " + " (space added after the plus) to improve readability by separating modifiers.
+        /// </remarks>
+        /// 
+        public static string ReadableKey(this InputEvent @event) {
+            if (@event is InputEventKey eventKey)
+                return eventKey.ReadableKey();
+
+            return "";
+        }
+
+        /// <summary>
         /// Converts an InputEventKey object into a human-readable string representation with modifiers.
         /// </summary>
         /// <param name="key">The InputEventKey object to convert.</param>
@@ -134,6 +154,7 @@ namespace Godot_XTension_Pack {
         /// 
         /// In both cases, the retrieved keycode with modifiers is then converted to a string using `OS.GetKeycodeString`. Finally, it replaces all "+" characters with " + " (space added after the plus) to improve readability by separating modifiers.
         /// </remarks>
+        /// 
         public static string ReadableKey(this InputEventKey key) {
             Key keyWithModifiers = key.Keycode is Key.None ? key.GetPhysicalKeycodeWithModifiers() : key.GetKeycodeWithModifiers();
 
@@ -161,6 +182,7 @@ namespace Godot_XTension_Pack {
         /// This function first calls `InputMap.ActionGetEvents` to get all InputEvents for the action. Then, it uses `Where` with a lambda expression to filter the collection and return only events that are either `InputEventKey` (keyboard) or `InputEventMouse`.
         /// </remarks>
         public static IEnumerable<InputEvent> GetKeyboardInputsForAction(StringName action) {
+
             return InputMap.ActionGetEvents(action)
                 .Where((inputEvent) => inputEvent is InputEventKey || inputEvent is InputEventMouse);
         }

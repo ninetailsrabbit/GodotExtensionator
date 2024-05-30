@@ -69,6 +69,7 @@ namespace Godot_XTension_Pack {
         public static int GetAbsoluteZIndex(this Node2D node) {
             int absoluteZ = 0;
 
+
             while (node is not null) {
                 absoluteZ += node.ZIndex;
 
