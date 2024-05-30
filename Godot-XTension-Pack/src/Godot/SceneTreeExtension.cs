@@ -130,7 +130,7 @@ namespace Godot_XTension_Pack {
         /// This function resumes the game by setting the `Paused` property of the SceneTree to false. Similar to pausing, it retrieves the autoloaded `GlobalGameEvents` node and emits the `GlobalGameEvents.SignalName.GameResumed` signal to notify other parts of the game about the pause state change.
         /// </remarks>
         public static void ResumeGame(this SceneTree tree) {
-            if (!tree.Paused) {
+            if (tree.Paused) {
                 tree.Paused = false;
             }
         }

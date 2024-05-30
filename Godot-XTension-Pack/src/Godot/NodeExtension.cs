@@ -296,7 +296,7 @@ namespace Godot_XTension_Pack {
         /// Any element that cannot be cast is omitted from the resulting collection.
         /// </remarks>
         public static IEnumerable<T> GetNodesInGroup<T>(this Node node, string group) where T : Node {
-            return node.GetTree().GetNodesInGroup(group).Cast<T>();
+            return node.GetTree().GetNodesInGroup(group.StripEdges()).Cast<T>();
         }
 
 
@@ -370,9 +370,7 @@ namespace Godot_XTension_Pack {
         /// <param name="node">The Node object to check for validity.</param>
         /// <returns>True if the node is not null, is a valid Godot object instance, and not queued for deletion, False otherwise.</returns>
         public static bool IsValid(this Node node) {
-            return node != null
-                && GodotObject.IsInstanceValid(node)
-                && !node.IsQueuedForDeletion();
+            return node != null && GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
         }
 
         /// <summary>
