@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Godot_XTension_Pack</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<EnableDynamicLoading>true</EnableDynamicLoading>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	<NoWarn>1591,1573</NoWarn>
-	  
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Godot_XTension_Pack</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<NoWarn>1591,1573</NoWarn>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
@@ -32,10 +31,11 @@
 		<RepositoryUrl>https://github.com/ninetailsrabbit/Godot-Xtension-Pack</RepositoryUrl>
 	</PropertyGroup>
 	
-  <ItemGroup>
-	<None Include="../README.md" Pack="true" PackagePath="\" />
-	<None Include="../LICENSE" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="\" />
+		<None Include="../LICENSE" Pack="true" PackagePath="\" />
+		<None Include="./icon.png" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<!-- Dependencies go here. -->
