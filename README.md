@@ -62,10 +62,10 @@ Add the package directly into your .csproj
 
 <ItemGroup>
 ## Latest stable release
-  <PackageReference Include//"Ninetailsrabbit.Godot_XTension_Pack"/>
+  <PackageReference Include="Ninetailsrabbit.Godot_XTension_Pack"/>
 
 ## Manual version
-  <PackageReference Include//"Ninetailsrabbit.Godot_XTension_Pack" Version//"0.1.0" />
+  <PackageReference Include="Ninetailsrabbit.Godot_XTension_Pack" Version="0.1.5" />
 </ItemGroup>
 ```
 
@@ -78,10 +78,10 @@ nuget install Ninetailsrabbit.Godot_XTension_Pack
 
 # Or choosing version
 
-nuget install Ninetailsrabbit.Godot_XTension_Pack -Version 0.1.0
+nuget install Ninetailsrabbit.Godot_XTension_Pack -Version 0.1.5
 
 # Using dotnet
-dotnet add package Ninetailsrabbit.Godot_XTension_Pack --version 0.1.0
+dotnet add package Ninetailsrabbit.Godot_XTension_Pack --version 0.1.5
 ```
 
 ## Usage
@@ -166,10 +166,16 @@ public class Sequence {
 public delegate void ConsumedSequenceEventHandler(GenericGodotWrapper<Sequence> sequence);
 
 
-private void OnConsumedSequence(Sequence sequence) {
-    var sequenceWrapper = new GenericGodotWrapper<Sequence>(sequence);
+public void ConsumeSequence(Sequence sequence) {
+  sequence.Consume();
 
-    EmitSignal(SignalName.ConsumedSequence, sequenceWrapper);
+  EmitSignal(SignalName.ConsumedSequence, new GenericGodotWrapper<Sequence>(sequence));
+}
+
+private void OnConsumedSequence(GenericGodotWrapper<Sequence> sequenceWrapper) {
+    Sequence sequence = sequenceWrapper.Value;
+
+    //...
 }
 
 ```
@@ -304,9 +310,10 @@ public override _Input(InputEvent @event) {
 
   // Return the key on human readable format
   // Ctrl + X, Alt + Shift + 1 ...
+  // Is this event is not InputEventKey a empty string is returned
   @event.ReadableKey()
 
-  // Or You can do manually check or run directly from InputEvent
+  // Or you can do the check manually
   if (@event is InputEventKey eventKey) {
     event.ReadableKey();
   }
