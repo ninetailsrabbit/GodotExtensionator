@@ -31,14 +31,16 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [Node2D](#node2d)
     - [Node 3D](#node-3d)
     - [Scene Tree](#scene-tree)
+    - [Viewport](#viewport)
     - [OSExtension](#osextension)
     - [Polygon2D](#polygon2d)
     - [Rect2](#rect2)
     - [Texture](#texture)
-  - [Functionalities that are not extended](#functionalities-that-are-not-extended)
+    - [Transform3D](#transform3d)
+  - [Functionalities that can be used without an instance](#functionalities-that-can-be-used-without-an-instance)
     - [OSExtension](#osextension-1)
     - [Get autoload singleton on any place](#get-autoload-singleton-on-any-place)
-    - [Getting random enum values](#getting-random-enum-values)
+    - [Getting random enum value](#getting-random-enum-value)
     - [Getting a random color](#getting-a-random-color)
     - [Input related methods](#input-related-methods)
     - [Common use characters](#common-use-characters)
@@ -376,8 +378,6 @@ This extensions provides helpful functions for manipulate or generate strings.
 ".PNg".EqualsIgnoreCase(".png") // true
 "Björk".EqualsCultureIgnoreCase("bjOrk") // true
 
-
-
 ```
 
 ### Mesh
@@ -585,6 +585,43 @@ tree.PauseGame();
 tree.ResumeGame();
 ```
 
+### Viewport
+
+```csharp
+public partial class MyScene: Node {
+
+  public override void _Ready() {
+      Viewport viewport = this.GetTree().GetViewport();
+
+    //Gets the camera frame in 2D coordinates for the specified viewport
+    // If no Camera2D exists, the visible rect from viewport is returned instead
+      viewport.GetCamera2DFrame();
+
+    // Converts a screen position (in normalized coordinates) to its corresponding world space position within the viewport
+    Vector2 worldPosition = viewport.ScreenToWorld(new Vector2(200, 200));
+
+    // Converts a world space position to its corresponding screen position (in normalized coordinates) within the viewport.
+    viewport.WorldToScreen(worldPosition);
+
+    // Screenshot related, this are similar to texture extensions
+    viewport.Screenshot();
+    viewport.ScreenshotToTextureRect();
+
+
+    //Gets the current screen position of the mouse relative to the top-left corner of the Viewport.
+    viewport.MouseScreenPosition();
+    // This provides a position relative to the Viewport itself, independent of screen resolution, normalized between 0.0 and 1.0
+    viewport.MouseScreenRelativePosition();
+
+    //Gets the vector from the Viewport's center to the current mouse screen position
+    viewport.MousePositionFromCenter();
+
+    // Gets the mouse position relative to the Viewport's center, normalized between -1.0 and 1.0 on both axes
+    viewport.MouseRelativeFromCenter();
+  }
+}
+```
+
 ### OSExtension
 
 General utilities that does not belongs to a particular place or uses `OS` singleton
@@ -654,7 +691,59 @@ textureRect.texture.GetPngRect();
 
 ```
 
-## Functionalities that are not extended
+### Transform3D
+
+Get directions from a transform in a more human-readable way.
+
+```csharp
+
+var character = new CharacterBody3D();
+
+// Access directions in the 3D space from a transform
+Vector3 direction = character.GlobalTransform.Back()
+Vector3 direction = character.GlobalTransform.Forward()
+Vector3 direction = character.GlobalTransform.Left()
+Vector3 direction = character.GlobalTransform.Right()
+Vector3 direction = character.GlobalTransform.Up()
+Vector3 direction = character.GlobalTransform.Down()
+
+// Align directions easily on a Node3D
+Transform3D newTransform = character.GlobalTransform.AlignUp()
+Transform3D newTransform = character.GlobalTransform.AlignDown()
+Transform3D newTransform = character.GlobalTransform.AlignRight()
+Transform3D newTransform = character.GlobalTransform.AlignLeft()
+Transform3D newTransform = character.GlobalTransform.AlignUp()
+
+// Aligns the transform's rotation to face a target direction from a specified current direction. Useful for example to rotate smoothly a space ship
+
+public class Spaceship : Node3D
+{
+    public Node3D Enemy; // Reference to the enemy Node3D
+
+    public override void _Process(float delta)
+    {
+        if (Enemy is not null)
+        {
+        // Get current forward direction of the spaceship
+        Vector3 currentDirection = Transform.basis.z;
+
+        // Get direction from spaceship to enemy
+        Vector3 targetDirection = this.GlobalDirectionTo(Enemy);
+
+        // Align the spaceship towards the enemy
+        Transform = this.Align(Transform, currentDirection, targetDirection);
+        }
+    }
+}
+
+// A more precise method to checks if two Transform3D objects are approximately equal in terms of their rotation and position
+
+character.GlobalTransform.EqualTransformApprox(Enemy.GlobalTransform);
+
+
+```
+
+## Functionalities that can be used without an instance
 
 Some extension variables or methods does not need an instance to be used. This means you can call them directly using the type name without needing an instance of the type. These are typically utility methods that don't require specific object state.
 
@@ -676,9 +765,10 @@ SceneTreeExtension.GetAutoloadSingleton<MusicManager>();
 // ...
 ```
 
-#### Getting random enum values
+#### Getting random enum value
 
 ```csharp
+// Get a random value from the enum passed as parameter.
 EnumExtension.RandomEnum(Input.MouseModeEnum);
 ```
 
