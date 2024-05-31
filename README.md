@@ -417,7 +417,7 @@ FactorialsFrom(7) // [1, 1, 2, 6, 24, 120, 720, 5040]
 1234567890.123.PrettyNumber() // 1.2B
 
 // It allows to pass more suffixes in string[] format. They are sorted by exponent, so later suffixes are applied on larger exponents
-1234567890.123.PrettyNumber(["", "K", "M", "BL", "T"]) // 1.2BL
+1234567890.123.PrettyNumber(["", "K", "M", "BL", "T"]); // 1.2BL
 
 // Binary string representation of a number
 5.ToBinary() // "101"
@@ -427,10 +427,18 @@ FactorialsFrom(7) // [1, 1, 2, 6, 24, 120, 720, 5040]
 // Formatted seconds, A string representation of the formatted time in the format "MM:SS" or "MM:SS:mm", depending on the value of UseMilliseconds
 
 // Without milliseconds
-123.456.ToFormattedSeconds() // Result: "02:03"
+123.456.ToFormattedSeconds(); // Result: "02:03"
 
 // With milliseconds
-123.456.ToFormattedSeconds(true) // Result: "02:03:45"
+123.456.ToFormattedSeconds(true); // Result: "02:03:45"
+
+// Delta value to seconds. Assumes that the value is delta.
+
+public override _Process(double delta) {
+  var timeElapsedInSeconds = delta.DeltaToTime();
+}
+
+
 ```
 
 ### String
