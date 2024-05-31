@@ -19,6 +19,8 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [.csproj](#csproj)
     - [Installation via CLI](#installation-via-cli)
   - [Usage](#usage)
+    - [General](#general)
+    - [GenericGodotWrapper](#genericgodotwrapper)
     - [AudioStreamPlayer](#audiostreamplayer)
     - [Camera 3D](#camera-3d)
     - [Color](#color)
@@ -85,6 +87,92 @@ dotnet add package Ninetailsrabbit.Godot_XTension_Pack --version 0.1.0
 ## Usage
 
 Since these functions are C# extension methods, they become available directly on the types they extend. You only need to call them on instances of those types in your code, simplifying the syntax
+
+### General
+
+This extensions do not have a dependency on godot and are therefore considered to be of the system.
+
+```csharp
+// "In" feature for any value in your project
+
+var piece = new Piece("circle", Piece.TYPES.NORMAL);
+
+// Parameters as enumerable
+piece.Type.In([Piece.TYPES.NORMAL, Piece.TYPES.OBSTACLE]); // true
+
+// Normal parameters
+piece.Type.In(Piece.TYPES.NORMAL, Piece.TYPES.OBSTACLE); // True
+
+2.In(3, 4, 5, 6, 2); // True
+10.In([5, 9, 11]); // False
+
+
+// Generates a random float value within a specified range (inclusive)
+// This extension method provides a way to generate random floats within a specific range, similar to how `Random.Next` works with integers
+Random rng = new();
+
+rng.NextFloat(5.3f, 10.8f);
+
+
+// Get the last index from any structure that inherit from IEnumerable
+int [] numbers = [100, 500, 400, 500];
+List<Piece> Pieces = new() { new Piece("triangle"), new Piece("triangle") };
+
+numbers.LastIndex(); // 3
+pieces.LastIndex(); // 1
+
+// Retrieve the middle element while the sequence contains 3 or more elements
+// An ArgumentException is throw when sequence contains less than 3 elements
+int [] numbers = [1, 2, 3, 4, 5];
+
+numbers.MiddleElement(); // 3
+
+string[] names = ["laura", "bustamante"];
+
+names.MiddleElement(); // Raises ArgumentException
+
+// Shortcuts to remove duplicates or nullables
+int [] numbers = [100, 100, 400, 500, 400, 500];
+numbers.RemoveDuplicates(); // [100, 400, 500]
+numbers.RemoveNullables();
+
+
+// Shuffle any structure that inherit from IEnumerable
+// This method alters the original Enumerable
+numbers.Shuffle();
+
+// Retrieve random elements from enumerables
+
+// Single element
+numbers.RandomElement();
+numbers.RandomElementUsing(new Random(42));
+
+// Multiple elements
+numbers.RandomElements(3);
+numbers.RandomElementsUsing(new Random(42), 5);
+```
+
+### GenericGodotWrapper
+
+This class allows to wrap your custom class who do not inherit from `Godot.Object` to be able to pass it on Godot Signals.
+
+```csharp
+
+public class Sequence {
+  //....
+}
+
+[Signal]
+public delegate void ConsumedSequenceEventHandler(GenericGodotWrapper<Sequence> sequence);
+
+
+private void OnConsumedSequence(Sequence sequence) {
+    var sequenceWrapper = new GenericGodotWrapper<Sequence>(sequence);
+
+    EmitSignal(SignalName.ConsumedSequence, sequenceWrapper);
+}
+
+```
 
 ### AudioStreamPlayer
 
