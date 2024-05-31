@@ -69,7 +69,7 @@ Add the package directly into your .csproj
 
 ### Installation via CLI
 
-Further information can be found on [install_use_packages_nuget_cli](https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-nuget-cli)
+Further information can be found on the [official microsoft documentation](https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-nuget-cli)
 
 ```sh
 nuget install Ninetailsrabbit.Godot_XTension_Pack
@@ -798,19 +798,19 @@ Get directions from a transform in a more human-readable way.
 var character = new CharacterBody3D();
 
 // Access directions in the 3D space from a transform
-Vector3 direction = character.GlobalTransform.Back()
-Vector3 direction = character.GlobalTransform.Forward()
-Vector3 direction = character.GlobalTransform.Left()
-Vector3 direction = character.GlobalTransform.Right()
-Vector3 direction = character.GlobalTransform.Up()
-Vector3 direction = character.GlobalTransform.Down()
+Vector3 direction = character.GlobalTransform.Back();
+Vector3 direction = character.GlobalTransform.Forward();
+Vector3 direction = character.GlobalTransform.Left();
+Vector3 direction = character.GlobalTransform.Right();
+Vector3 direction = character.GlobalTransform.Up();
+Vector3 direction = character.GlobalTransform.Down();
 
 // Align directions easily on a Node3D
-Transform3D newTransform = character.GlobalTransform.AlignUp()
-Transform3D newTransform = character.GlobalTransform.AlignDown()
-Transform3D newTransform = character.GlobalTransform.AlignRight()
-Transform3D newTransform = character.GlobalTransform.AlignLeft()
-Transform3D newTransform = character.GlobalTransform.AlignUp()
+Transform3D newTransform = character.GlobalTransform.AlignUp();
+Transform3D newTransform = character.GlobalTransform.AlignDown();
+Transform3D newTransform = character.GlobalTransform.AlignRight();
+Transform3D newTransform = character.GlobalTransform.AlignLeft();
+Transform3D newTransform = character.GlobalTransform.AlignUp();
 
 // Aligns the transform's rotation to face a target direction from a specified current direction. Useful for example to rotate smoothly a space ship
 
