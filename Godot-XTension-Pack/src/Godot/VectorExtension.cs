@@ -3,17 +3,31 @@ using Godot.Collections;
 
 namespace Godot_XTension_Pack {
     public static class VectorExtension {
-
         private static readonly RandomNumberGenerator _rng = new();
+
+        private static readonly Godot.Collections.Dictionary<Vector2, Vector2> OppositeUpDirectionsV2 = new() {
+                {Vector2.Up, Vector2.Down},
+                {Vector2.Down, Vector2.Up},
+                {Vector2.Left, Vector2.Right},
+                {Vector2.Right, Vector2.Left},
+            };
+
+        private static readonly Godot.Collections.Dictionary<Vector3, Vector3> OppositeUpDirectionsV3 = new() {
+                {Vector3.Up, Vector3.Down},
+                {Vector3.Down, Vector3.Up},
+                {Vector3.Left, Vector3.Right},
+                {Vector3.Right, Vector3.Left},
+                {Vector3.Forward, Vector3.Back },
+                {Vector3.Back, Vector3.Forward }
+            };
 
         /// <summary>
         /// Retrieves the opposite direction of a given up direction based on a pre-defined mapping.
         /// </summary>
         /// <param name="vector">The vector to use as a reference for opposite directions.</param>
-        /// <param name="upDirection">The direction considered "up" for this specific context.</param>
         /// <returns>The opposite direction of the provided upDirection, or Vector2.Zero/Vector3.Zero if not found.</returns>
-        public static Vector2 UpDirectionOpposite(this Vector2 vector, Vector2 upDirection) {
-            if (vector.OppositeUpDirections().TryGetValue(upDirection, out Vector2 direction))
+        public static Vector2 UpDirectionOpposite(this Vector2 vector) {
+            if (OppositeUpDirectionsV2.TryGetValue(vector, out Vector2 direction))
                 return direction;
 
             return Vector2.Zero;
@@ -23,10 +37,48 @@ namespace Godot_XTension_Pack {
         /// Retrieves the opposite direction of a given up direction based on a pre-defined mapping.
         /// </summary>
         /// <param name="vector">The vector to use as a reference for opposite directions.</param>
-        /// <param name="upDirection">The direction considered "up" for this specific context.</param>
         /// <returns>The opposite direction of the provided upDirection, or Vector3.Zero/Vector3.Zero if not found.</returns>
-        public static Vector3 UpDirectionOpposite(this Vector3 vector, Vector3 upDirection) {
-            if (vector.OppositeUpDirections().TryGetValue(upDirection, out Vector3 direction))
+        public static Vector3 UpDirectionOpposite(this Vector3 vector) {
+            if (OppositeUpDirectionsV3.TryGetValue(vector, out Vector3 direction))
+                return direction;
+
+            return Vector3.Zero;
+        }
+
+        /// <summary>
+        /// Gets the opposite direction based on the character's current UpDirection.
+        /// </summary>
+        /// <param name="body">The CharacterBody2D object (extended on).</param>
+        /// <returns>
+        /// The opposite direction vector of the character's UpDirection, or Vector2.Zero if not found.
+        /// </returns>
+        /// <remarks>
+        /// This extension method retrieves the opposite direction corresponding to the character's current UpDirection (presumably stored in the `body.UpDirection` property).
+        /// It utilizes a pre-defined dictionary named `OppositeUpDirectionsV2` (assumed to be defined elsewhere) to efficiently map the UpDirection to its opposite.
+        /// If a mapping exists for the current UpDirection, the corresponding opposite direction vector is returned. Otherwise, the method returns Vector2.Zero.
+        /// </remarks>
+        public static Vector2 UpDirectionOpposite(this CharacterBody2D body) {
+            if (OppositeUpDirectionsV2.TryGetValue(body.UpDirection, out Vector2 direction))
+                return direction;
+
+            return Vector2.Zero;
+        }
+
+        /// <summary>
+        /// Gets the opposite direction based on the character's current UpDirection.
+        /// </summary>
+        /// <param name="body">The CharacterBody3D object (extended on).</param>
+        /// <returns>
+        /// The opposite direction vector of the character's UpDirection, or Vector3.Zero if not found.
+        /// </returns>
+        /// <remarks>
+        /// This extension method behaves similarly to the `UpDirectionOpposite` for CharacterBody2D, but operates on 3D vectors.
+        /// It retrieves the opposite direction corresponding to the character's current UpDirection (presumably stored in the `body.UpDirection` property).
+        /// It utilizes a pre-defined dictionary named `OppositeUpDirectionsV3` (assumed to be defined elsewhere) to map the UpDirection to its opposite in 3D space.
+        /// If a mapping exists for the current UpDirection, the corresponding opposite direction vector is returned. Otherwise, the method returns Vector3.Zero.
+        /// </remarks>
+        public static Vector3 UpDirectionOpposite(this CharacterBody3D body) {
+            if (OppositeUpDirectionsV3.TryGetValue(body.UpDirection, out Vector3 direction))
                 return direction;
 
             return Vector3.Zero;
@@ -140,7 +192,8 @@ namespace Godot_XTension_Pack {
         /// <param name="angle">The angle (in radians) in which to extend the vector.</param>
         /// <param name="amount">The distance to extend the vector.</param>
         /// <returns>A new Vector2 representing the extended vector.</returns>
-        public static Vector2 Extend(this Vector2 vector, float angle, float amount = 1.0f) => new(vector.X + amount * Mathf.Cos(angle), vector.Y + amount * Mathf.Sin(angle));
+        public static Vector2 Extend(this Vector2 vector, float angle, float amount = 1.0f)
+            => new(vector.X + amount * Mathf.Cos(angle), vector.Y + amount * Mathf.Sin(angle));
 
         /// <summary>
         /// Extends a Vector3 in a specified direction by a given amount.
@@ -149,7 +202,8 @@ namespace Godot_XTension_Pack {
         /// <param name="angle">The angle (in radians) in which to extend the vector (assumes XZ plane).</param>
         /// <param name="amount">The distance to extend the vector.</param>
         /// <returns>A new Vector3 representing the extended vector.</returns>
-        public static Vector3 Extend(this Vector3 vector, float angle, float amount = 1.0f) => new(vector.X + amount * Mathf.Cos(angle), 0f, vector.Z + amount * Mathf.Sin(angle));
+        public static Vector3 Extend(this Vector3 vector, float angle, float amount = 1.0f)
+            => new(vector.X + amount * Mathf.Cos(angle), 0f, vector.Z + amount * Mathf.Sin(angle));
 
         /// <summary>
         /// Determines if two Vector2 objects are within a specified squared distance.
@@ -162,7 +216,7 @@ namespace Godot_XTension_Pack {
         /// This function provides increased efficiency by comparing squared distances directly,
         /// avoiding a potentially expensive square root operation.
         /// </remarks>
-        public static bool IsWithinDistanceSquaredV2(this Vector2 v1, Vector2 v2, float distance)
+        public static bool IsWithinDistanceSquared(this Vector2 v1, Vector2 v2, float distance)
             => v1.DistanceSquaredTo(v2) <= distance * distance;
 
         /// <summary>
@@ -175,7 +229,7 @@ namespace Godot_XTension_Pack {
         /// <remarks>
         /// This function also uses squared distance comparison for efficiency.
         /// </remarks>
-        public static bool IsWithinDistanceSquaredV3(this Vector3 v1, Vector3 v2, float distance)
+        public static bool IsWithinDistanceSquared(this Vector3 v1, Vector3 v2, float distance)
             => v1.DistanceSquaredTo(v2) <= distance * distance;
 
 
@@ -711,38 +765,6 @@ namespace Godot_XTension_Pack {
             return c.Dot(b.Normalized()) / b.Length();
         }
 
-
-
-        /// <summary>
-        /// Creates a dictionary that maps a direction to its opposite direction (e.g., Up to Down, Left to Right).
-        /// </summary>
-        /// <param name="_"> An unused extension parameter (likely for readability or consistency with other methods).</param>
-        /// <returns>A Godot.Collections.Dictionary containing key-value pairs of opposite directions for the specific vector type (Vector2 or Vector3).</returns>
-        private static Godot.Collections.Dictionary<Vector2, Vector2> OppositeUpDirections(this Vector2 _) {
-            return new() {
-                {Vector2.Up, Vector2.Down},
-                {Vector2.Down, Vector2.Up},
-                {Vector2.Left, Vector2.Right},
-                {Vector2.Right, Vector2.Left},
-            };
-        }
-
-
-        /// <summary>
-        /// Creates a dictionary that maps a direction to its opposite direction (e.g., Up to Down, Left to Right).
-        /// </summary>
-        /// <param name="_"> An unused extension parameter (likely for readability or consistency with other methods).</param>
-        /// <returns>A Godot.Collections.Dictionary containing key-value pairs of opposite directions for the specific vector type (Vector2 or Vector3).</returns>
-        private static Godot.Collections.Dictionary<Vector3, Vector3> OppositeUpDirections(this Vector3 _) {
-            return new() {
-                {Vector3.Up, Vector3.Down},
-                {Vector3.Down, Vector3.Up},
-                {Vector3.Left, Vector3.Right},
-                {Vector3.Right, Vector3.Left},
-                {Vector3.Forward, Vector3.Back },
-                {Vector3.Back, Vector3.Forward }
-            };
-        }
     }
 
 }

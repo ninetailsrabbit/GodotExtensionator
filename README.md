@@ -32,6 +32,7 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
     - [Node 3D](#node-3d)
     - [Scene Tree](#scene-tree)
     - [Viewport](#viewport)
+    - [Vector](#vector)
     - [OSExtension](#osextension)
     - [Polygon2D](#polygon2d)
     - [Rect2](#rect2)
@@ -620,6 +621,103 @@ public partial class MyScene: Node {
     viewport.MouseRelativeFromCenter();
   }
 }
+```
+
+### Vector
+
+This is the biggest one because in videogame development we are constantly working with vectors. Most of them works for both `Vector2` and `Vector3` unless otherwise defined.
+
+```csharp
+// Methods to get the opposite vector from the UpDirection of CharacterBody3D
+
+Vector2.Right.UpDirectionOpposite() // Vector2.Left
+Vector2.Up.UpDirectionOpposite() // Vector2.Down
+
+Vector3.Right.UpDirectionOpposite() // Vector3.Left
+Vector3.Forward.UpDirectionOpposite() // Vector3.Back
+
+// It's useful for example to apply the gravity force depending where the up direction is pointing.
+public void ApplyGravity(CharacterBody3D character, float force ) {
+  character.Velocity += character.UpDirection.UpDirectionOpposite() * force * delta
+
+  // You can use it from the character body also
+  character.Velocity += character.UpDirectionOpposite() * force * delta
+}
+
+//  Limits the horizontal angle in radians of a Vector2 direction within a specified range.
+
+// Imagine you have a character aiming a weapon with a limited horizontal firing range. This function can be used to ensure the aiming direction stays within the allowed range while preserving the vertical direction
+
+Vector2 aiminDirection = Vector2(1, -0.5)  // Extracting direction from vector
+
+float MaxHorizontalAngle = Mathf.PI / 3  // Limit angle to 60 degrees
+
+Vector2 limitedDirection = MaxHorizontalAngle.LimitHorizontalAngle(aiminDirection);
+// Output: (0.5, -0.866)
+
+
+// Rotate vertically or horizontally a Vector3 with a random value
+Vector3.One.RotateHorizontalRandom();
+Vector3.One.RotateVerticalRandom();
+
+// System numerics Vector2 to Godot.Vector2 and viceversa
+System.Numerics.Vector2 numericVector = new Vector2(3, 5)
+Godot.Vector2 godotVector = new Godot.Vector2(5, 5);
+
+numericVector.ToGodotVector();
+numericVector.ToGodotVectorI();
+
+godotVector.ToNumericVector();
+
+// System numerics Vector3 to Godot.Vector3 and viceversa
+System.Numerics.Vector2 numericVector = new Vector2(3, 5, 8);
+Godot.Vector2 godotVector = new Godot.Vector3(5, 5, 10);
+
+numericVector.ToGodotVector();
+numericVector.ToGodotVectorI();
+
+godotVector.ToNumericVector();
+
+
+// Flip a vector on a human-readable way
+// This is exactly the same as prefix with -
+var vector = Vector2.Right // (1, 0)
+vector.Flip(); // (-1, 0)
+
+var vector = Vector3.Up // (0, 1, 0)
+vector.Flip() // (0, -1, 0)
+
+// Reverse is also available
+Vector2(3, 5).Reverse() // Vector2(5, 3)
+Vector3(3, 5, 7).Reverse() // Vector2(7, 5, 3)
+
+// Get a topdown Vector2 from a Vector3
+// This function can be used to convert 3D positions of objects (represented by Vector3) to their corresponding 2D coordinates on the screen (represented by Vector2).
+Vector3(100, 40, 150).GetTopdownVector(); // Vector2(100, 150)
+
+// Extends a Vector in a specified direction by a given amount.
+float jumpForce = 10f;
+
+Vector3 jumpDirection = Vector3.Up.Extend(Mathf.Pi, jumpForce);
+
+// Shorcut version to !IsZeroApprox()
+new Vector2(0, 1).IsNotZeroApprox(); // true
+Vector3.Zero.IsNotZeroApprox(); // false
+
+
+//  Calculating the squared distance is computationally cheaper than calculating the actual distance using a square root operation. This can be beneficial for performance optimization when checking distances frequently
+
+// While using squared distances offers a performance benefit, keep in mind that it doesn't give you the actual distance between the points. If you need the actual distance for calculations or other purposes, you'll need to perform a square root operation on the result
+
+Vector2 from = new (3, 0),
+Vector2 to = new(5, 2);
+
+bool isOnDistance = from.IsWithinDistanceSquared(to, 5f); // true
+
+Mathf.Sqrt(isOnDistance); // 2.8284271247461903
+
+
+// TODO - CONTINUE WITH THE DOCUMENTATION
 ```
 
 ### OSExtension
