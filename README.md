@@ -150,6 +150,19 @@ numbers.RandomElementUsing(new Random(42));
 // Multiple elements
 numbers.RandomElements(3);
 numbers.RandomElementsUsing(new Random(42), 5);
+
+// Pop elements
+
+string[] superheros = ["saitama", "wonder woman", "spiderman", "captain-america"]
+
+// Get and remove the first element from the list
+superheros.PopFront(); // "saitama" -->  ["wonder woman", "spiderman", "captain-america"]
+
+// Get and remove the last element from the list
+superheros.PopBack(); // "captain america" -->  ["saitama", "wonder woman", "spiderman"]
+
+// Get and remove the selected index element from the list
+superheros.PopAt(2) // "spiderman" --> ["saitama", "wonder woman", "captain-america"]
 ```
 
 ### GenericGodotWrapper
@@ -482,6 +495,13 @@ This extensions provides helpful functions for manipulate or generate strings.
 ".PNg".EqualsIgnoreCase(".png") // true
 "Björk".EqualsCultureIgnoreCase("bjOrk") // true
 
+// Convert text to TitleCase based on iso, by default uses 'en-US'
+
+ "wAr aNd pEaCe".ToTitleCase(); // "War And Peace"
+
+// Truncates the specified string to the given maximum length and adds a suffix if necessary, default suffix it's '...'
+"my super longer text that needs to be truncated".Truncate(20); // my super longer text...
+"my super longer text that needs to be truncated".Truncate(25, "---"); // my super longer text that---
 ```
 
 ### Mesh

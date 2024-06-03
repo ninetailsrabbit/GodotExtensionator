@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Godot_XTension_Pack {
@@ -126,6 +127,36 @@ namespace Godot_XTension_Pack {
                 return Error.Ok;
 
             return DirAccess.GetOpenError();
+        }
+
+        /// <summary>
+        /// Converts the specified string to title case using the specified culture (default is "en-US").
+        /// </summary>
+        /// <param name="text">The string to convert.</param>
+        /// <param name="iso">The culture code (ISO format) used for title casing rules. Defaults to "en-US" (English - United States).</param>
+        /// <returns>The converted string in title case.</returns>
+        public static string ToTitleCase(this string text, string iso = "en-US") => new CultureInfo(iso).TextInfo.ToTitleCase(text);
+
+        /// <summary>
+        /// Converts the specified string to title case using the specified culture information.
+        /// </summary>
+        /// <param name="text">The string to convert.</param>
+        /// <param name="cultureInfo">The culture information object that defines the title casing rules.</param>
+        /// <returns>The converted string in title case.</returns>
+        public static string ToTitleCase(this string text, CultureInfo cultureInfo) => cultureInfo.TextInfo.ToTitleCase(text);
+
+        /// <summary>
+        /// Truncates the specified string to the given maximum length and adds a suffix if necessary.
+        /// </summary>
+        /// <param name="text">The string to truncate.</param>
+        /// <param name="maxLength">The maximum length of the resulting string (excluding the suffix).</param>
+        /// <param name="suffix">The suffix to add to the truncated string (default is "...").</param>
+        /// <returns>The truncated string with the suffix if necessary, otherwise the original string.</returns>
+        public static string Truncate(this string text, int maxLength, string suffix = "...") {
+            if (text.IsNullOrEmpty() || text.Length <= maxLength)
+                return text;
+
+            return string.Concat(text.AsSpan(0, maxLength - suffix.Length), suffix);
         }
 
         /// <summary>
