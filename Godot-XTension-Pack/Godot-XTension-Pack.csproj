@@ -9,12 +9,12 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<NoWarn>1591,1573</NoWarn>
+		<NoWarn>1591,1573,8601</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
-		<Version>0.1.8</Version>
+		<Version>0.1.9</Version>
 		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
