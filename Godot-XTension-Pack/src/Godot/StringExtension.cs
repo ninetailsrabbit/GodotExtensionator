@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Godot_XTension_Pack {
     public static partial class StringExtension {
+
+        private static readonly Random _rng = new(DateTime.Now.Millisecond);
+
         public static readonly string HEX_CHARACTERS = "0123456789ABCDEF";
         public static readonly string ASCII_ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         public static readonly string ASCII_LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -86,14 +89,6 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="html">The string potentially containing HTML tags to be stripped. (Can be null)</param>
         /// <returns>A new string with HTML tags removed, preserving whitespace.</returns>
-        /// <remarks>
-        /// This method first checks if the input string (`html`) is null or empty using `string.IsNullOrEmpty`.
-        /// If so, it returns an empty string immediately. Otherwise, it performs the following steps:
-        ///   - Utilizes a pre-defined regular expression (assumed to be stored in a `StripHtmlRegex` method) to match and replace HTML tags with empty strings.
-        ///   - Replaces the non-breaking space entity "&nbsp;" with a regular space character " ".
-        ///   - Replaces the character reference for a non-breaking space "&#160;" with an empty string.
-        /// By performing these replacements, the method effectively removes HTML tags while maintaining whitespace characters.
-        /// </remarks>
         public static string StripHTML(this string? html) {
             if (string.IsNullOrEmpty(html))
                 return string.Empty;
@@ -161,6 +156,22 @@ namespace Godot_XTension_Pack {
         /// <param name="cultureInfo">The culture information object that defines the title casing rules.</param>
         /// <returns>The converted string in title case.</returns>
         public static string ToTitleCase(this string text, CultureInfo cultureInfo) => cultureInfo.TextInfo.ToTitleCase(text);
+
+        /// <summary>
+        /// Converts a string to a slug (URL-friendly format) This is a title with spaces -> this-is-a-title-with-spaces.
+        /// </summary>
+        /// <param name="value">The string to be converted to a slug (can be null or empty).</param>
+        /// <returns>A lowercase slug representing the provided string, or an empty string if the input is null or empty.</returns>
+        public static string ToSlug(this string? value) {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            var firstReplace = Regex.Replace(Encoding.ASCII.GetString(value.ToBytes()), @"\s{2,}|[^\w]", " ",
+                RegexOptions.ECMAScript, TimeSpan.FromMilliseconds(100)).Trim();
+
+            return Regex.Replace(firstReplace, @"\s+", "_", RegexOptions.None, TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
+        }
+
 
         /// <summary>
         /// Truncates the specified string to the given maximum length and adds a suffix if necessary.
@@ -310,6 +321,94 @@ namespace Godot_XTension_Pack {
 
             return value;
         }
+
+        /// <summary>
+        /// Shuffles the characters in a string using a thread-safe random number generator.
+        /// </summary>
+        /// <param name="str">The string to be shuffled.</param>
+        /// <returns>A new string with the characters in a random order.</returns>
+        /// <remarks>
+        /// This extension method shuffles the characters in a string by iterating through each position.
+        /// For each character, it uses a thread-safe random number generator (`_rng`) to select another position within the string.
+        /// The characters at these two positions are then swapped using tuple deconstruction and assignment.
+        /// Finally, a new string is created from the shuffled character array.
+        /// </remarks>
+        public static string Shuffle(this string str) {
+            char[] charArray = str.ToCharArray();
+
+            for (int i = 0; i < charArray.Length; i++) {
+                int randomIndex = _rng.Next(i, charArray.Length);
+                (charArray[randomIndex], charArray[i]) = (charArray[i], charArray[randomIndex]);
+            }
+
+            return new string(charArray);
+        }
+
+        /// <summary>
+        /// Removes characters from a filename that are considered invalid by the operating system.
+        /// </summary>
+        /// <param name="filename">The filename from which to remove invalid characters.</param>
+        /// <returns>A new string with invalid filename characters removed.</returns>
+        /// <remarks>
+        /// This extension method checks if the provided filename is null or empty. If so, it returns the original filename.
+        /// Otherwise, it utilizes the `Path.GetInvalidFileNameChars` method to obtain a list of invalid characters for filenames.
+        /// It then employs the `Aggregate` method with a lambda expression to iterate through each invalid character.
+        /// Within the lambda, the `Replace` method is used to replace each invalid character with an empty string.
+        /// The result is a new string with all invalid filename characters removed.
+        /// </remarks>
+        public static string RemoveInvalidFileNameCharacters(this string filename) {
+            if (filename.IsNullOrEmpty())
+                return filename;
+
+            return Path.GetInvalidFileNameChars().Aggregate(filename, (current, character) => current.Replace(character.ToString(), string.Empty));
+        }
+
+        /// <summary>
+        /// Removes characters from a path that are considered invalid by the operating system.
+        /// </summary>
+        /// <param name="path">The path from which to remove invalid characters.</param>
+        /// <returns>A new string with invalid path characters removed.</returns>
+        /// <remarks>
+        /// This extension method behaves similarly to `RemoveInvalidFileNameCharacters`.
+        /// It checks for null or empty input and returns the original path if so.
+        /// Otherwise, it retrieves a list of invalid path characters using `Path.GetInvalidPathChars`.
+        /// The `Aggregate` method with a lambda expression is used to iterate and remove these characters using `Replace`.
+        /// The final result is a new string with all invalid path characters removed.
+        /// </remarks>
+        public static string RemoveInvalidPathCharacters(this string path) {
+            if (path.IsNullOrEmpty())
+                return path;
+
+            return Path.GetInvalidPathChars().Aggregate(path, (current, character) => current.Replace(character.ToString(), string.Empty));
+        }
+
+        /// <summary>
+        /// Converts a string to a byte array representation using UTF-8 encoding.
+        /// </summary>
+        /// <param name="value">The string to be converted.</param>
+        /// <returns>A byte array containing the UTF-8 encoded representation of the string.</returns>
+        /// <remarks>
+        /// This extension method assumes UTF-8 encoding, a common character encoding for text data.
+        /// It utilizes the `Encoding.UTF8.GetBytes` method to convert the string into a byte array.
+        /// UTF-8 is a widely used and compatible encoding that can represent a vast range of characters.
+        /// However, if you require a different encoding for specific use cases, consider using the overload that allows specifying the encoding.
+        /// </remarks>
+        public static byte[] ToBytes(this string value) => Encoding.UTF8.GetBytes(value);
+
+        /// <summary>
+        /// Converts a string to a byte array representation using the specified encoding.
+        /// </summary>
+        /// <param name="value">The string to be converted.</param>
+        /// <param name="encoding">The desired character encoding to use for the conversion.</param>
+        /// <returns>A byte array containing the encoded representation of the string based on the provided encoding.</returns>
+        /// <remarks>
+        /// This extension method offers more flexibility by accepting an `Encoding` object as a parameter.
+        /// This allows you to specify the character encoding that best suits your needs.
+        /// It then employs the `encoding.GetBytes` method to perform the conversion based on the chosen encoding.
+        /// Selecting the appropriate encoding is essential to ensure accurate representation and avoid data corruption when converting the byte array back to a string.
+        /// </remarks>
+
+        public static byte[] ToBytes(this string value, Encoding encoding) => encoding.GetBytes(value);
 
         [GeneratedRegex(@"\[.+?\]")]
         private static partial Regex StripBBCodeRegex();

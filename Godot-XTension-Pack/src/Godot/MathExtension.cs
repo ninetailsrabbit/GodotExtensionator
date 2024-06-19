@@ -52,6 +52,9 @@ namespace Godot_XTension_Pack {
         public static bool IsGreaterThanZero(this float number) => number > 0;
         public static bool IsBelowZero(this int number) => number < 0;
         public static bool IsBelowZero(this float number) => number < 0;
+        public static bool IsEven(this int number) => number % 2 == 0;
+        public static bool IsOdd(this int number) => number % 2 != 0;
+
 
         /// <summary>
         /// Normalizes an angle in degrees to be between 0 and 360 degrees, assuming the angle is represented in degrees.
@@ -399,6 +402,46 @@ namespace Godot_XTension_Pack {
         public static double DeltaToTime(this double delta) => 1d / delta * 0.001d;
 
         /// <summary>
+        /// Returns the larger of two byte values.
+        /// </summary>
+        /// <param name="first">The first byte value to compare.</param>
+        /// <param name="second">The second byte value to compare.</param>
+        /// <returns>The larger of the two provided byte values.</returns>
+        /// <remarks>
+        /// This extension method leverages the static `Math.Max` method to determine the larger value between the two `byte` arguments (`first` and `second`).
+        /// The `Math.Max` method is a generic function that can handle different numerical types, and in this case, it is specifically used for bytes.
+        /// This approach provides a concise way to find the maximum byte value without writing explicit comparison logic.
+        /// </remarks>
+        public static byte Max(this byte first, byte second) => Math.Max(first, second);
+
+        /// <summary>
+        /// Returns the smaller of two byte values.
+        /// </summary>
+        /// <param name="first">The first byte value to compare.</param>
+        /// <param name="second">The second byte value to compare.</param>
+        /// <returns>The smaller of the two provided byte values.</returns>
+        /// <remarks>
+        /// This extension method is similar to `Max` but utilizes the `Math.Min` static method.
+        /// The `Math.Min` method finds the minimum value between the two `byte` arguments (`first` and `second`).
+        /// This method provides a convenient way to identify the smaller byte value without writing conditional statements.
+        /// </remarks>
+        public static byte Min(this byte first, byte second) => Math.Min(first, second);
+
+        /// <summary>
+        /// Converts an integer value to a byte array representation.
+        /// </summary>
+        /// <param name="value">The integer value to be converted.</param>
+        /// <returns>A byte array containing the bytes representing the integer value.</returns>
+        /// <remarks>
+        /// This extension method employs the `BitConverter.GetBytes` static method to convert the provided `int` value (`value`) into a byte array.
+        /// The `BitConverter` class offers various methods for converting between different data types and their byte representations.
+        /// In this case, `GetBytes` specifically handles the conversion of an integer to a byte array based on the system's endianness (byte order).
+        /// The resulting byte array can be used for network communication, file storage, or other scenarios where byte representations are required.
+        /// </remarks>
+        public static byte[] GetBytes(this int value) => BitConverter.GetBytes(value);
+
+
+        /// <summary>
         /// Converts a BitArray with a length of 8 to a single byte.
         /// </summary>
         /// <param name="bits">The BitArray to convert. (Must have a length of 8)</param>
@@ -409,6 +452,7 @@ namespace Godot_XTension_Pack {
         /// Otherwise, it creates a byte array of size 1 and copies the BitArray bits into it using CopyTo.
         /// Finally, the first element (index 0) of the byte array is returned as the resulting byte.
         /// </remarks>
+        /// 
         public static byte ToByte(this BitArray bits) {
             if (bits.Count != 8)
                 throw new ArgumentException("BitsToByte: Bits needs to have a length of 8");
@@ -464,7 +508,6 @@ namespace Godot_XTension_Pack {
         /// <param name="length">The desired length of the boolean array. (Must be less than or equal to 8)</param>
         /// <returns>An array of booleans representing the bits of the byte, padded with false if the length is less than 8.</returns>
         /// <exception cref="ArgumentException">Thrown if the desired length is greater than 8.</exception>
-        /// <remarks>
         public static bool[] ByteToBools(this byte b, int length) {
             bool[] bools = new bool[length];
 

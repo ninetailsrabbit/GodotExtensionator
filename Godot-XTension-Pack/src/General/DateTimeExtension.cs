@@ -1,4 +1,6 @@
-﻿namespace Godot_XTension_Pack {
+﻿using System.Runtime.CompilerServices;
+
+namespace Godot_XTension_Pack {
     public static class DateTimeExtension {
 
         /// <summary>
@@ -69,7 +71,6 @@
             return (int)((date.ToUniversalTime() - epoch).Ticks / TimeSpan.TicksPerSecond);
         }
 
-
         /// <summary>
         /// Converts an integer representing the number of seconds since an epoch (default: 1970-01-01 UTC) to a DateTime object.
         /// </summary>
@@ -99,5 +100,78 @@
         /// Finally, it converts the difference in ticks (`TotalTicks`) to hours and returns the result.
         /// </remarks>
         public static double UTCOffset(this DateTime date) => (date - date.ToUniversalTime()).TotalHours;
+
+        /// <summary>
+        /// Calculates the time difference between two DateTime objects.
+        /// </summary>
+        /// <param name="datetime">The first DateTime object.</param>
+        /// <param name="anotherDateTime">The second DateTime object.</param>
+        /// <returns>A TimeSpan object representing the difference between the two DateTime objects.</returns>
+        /// <remarks>
+        /// This method directly subtracts the second DateTime object (`anotherDateTime`) from the first one (`datetime`).
+        /// The subtraction using the minus (-) operator calculates the elapsed time between the two dates and times.
+        /// The result is a TimeSpan object, which represents a duration of time.
+        /// </remarks>
+        public static TimeSpan Diff(this DateTime datetime, DateTime anotherDateTime) => datetime - anotherDateTime;
+
+        /// <summary>
+        /// Calculates the elapsed time between the current local date and time and the provided DateTime value.
+        /// </summary>
+        /// <param name="value">The DateTime value to measure the elapsed time from.</param>
+        /// <returns>A TimeSpan representing the elapsed time.</returns>
+        public static TimeSpan Elapsed(this DateTime value) => DateTime.Now - value;
+
+        /// <summary>
+        /// Calculates the elapsed time between the current Coordinated Universal Time (UTC) and the provided DateTime value.
+        /// </summary>
+        /// <param name="value">The DateTime value to measure the elapsed time from.</param>
+        /// <returns>A TimeSpan representing the elapsed time.</returns>
+        public static TimeSpan ElapsedUTC(this DateTime value) => DateTime.UtcNow - value;
+
+        /// <summary>
+        /// Removes fractional millisecond components from a DateTime, resulting in a DateTime with millisecond precision.
+        /// </summary>
+        /// <param name="date">The DateTime value to truncate.</param>
+        /// <returns>A new DateTime with milliseconds set to zero and any remaining fractional parts removed.</returns>
+        public static DateTime TruncateToMilliseconds(this DateTime date) {
+            return new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond);
+        }
+
+        /// <summary>
+        /// Removes millisecond and sub-second components from a DateTime, resulting in a DateTime with second precision.
+        /// </summary>
+        /// <param name="date">The DateTime value to truncate.</param>
+        /// <returns>A new DateTime with milliseconds and any remaining fractional parts set to zero.</returns>
+        public static DateTime TruncateToSeconds(this DateTime date) {
+            return new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, 0);
+        }
+
+        /// <summary>
+        /// Removes second and sub-second components from a DateTime, resulting in a DateTime with minute precision.
+        /// </summary>
+        /// <param name="date">The DateTime value to truncate.</param>
+        /// <returns>A new DateTime with seconds and any remaining fractional parts set to zero.</returns>
+        public static DateTime TruncateToMinutes(this DateTime date) {
+            return new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0);
+        }
+
+        /// <summary>
+        /// Removes minute and sub-minute components from a DateTime, resulting in a DateTime with hour precision.
+        /// </summary>
+        /// <param name="date">The DateTime value to truncate.</param>
+        public static DateTime TruncateToHours(this DateTime date) {
+            return new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0, 0);
+        }
+
+        /// <summary>
+        /// Removes hour and sub-hour components from a DateTime, resulting in a DateTime with day precision.
+        /// </summary>
+        /// <param name="date">The DateTime value to truncate.</param>
+        /// <returns>A new DateTime with hours and any remaining fractional parts set to zero.</returns>
+        public static DateTime TruncateToDays(this DateTime date) {
+            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, 0);
+        }
+
+
     }
 }

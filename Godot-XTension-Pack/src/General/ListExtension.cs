@@ -1,4 +1,6 @@
-﻿namespace Godot_XTension_Pack {
+﻿using System.Diagnostics.Contracts;
+
+namespace Godot_XTension_Pack {
     public static class ListExtension {
         private static readonly Random _rng = new();
 
@@ -16,6 +18,13 @@
         /// </remarks>
         public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> sequence)
             => sequence.Select((item, index) => (item, index));
+
+        public static List<T> Diff<T>(this IList<T> sequence, IList<T> otherSequence) {
+            ArgumentException.ThrowIfNullOrEmpty(nameof(sequence));
+            ArgumentException.ThrowIfNullOrEmpty(nameof(otherSequence));
+
+            return sequence.Except(otherSequence).ToList();
+        }
 
         /// <summary>
         /// Removes and returns the element at the specified index from the list.
@@ -94,6 +103,21 @@
 
             throw new ArgumentException("ListExtension:MiddleElement -> Sequence must contain at least 3 elements.");
         }
+
+        /// <summary>
+        /// Filters an iterable of strings to include only those that are not null, empty, or whitespace.
+        /// </summary>
+        /// <param name="sequence">The sequence of strings to be filtered.</param>
+        /// <returns>An iterator containing only elements that are not null, empty, or whitespace.</returns>
+        /// <remarks>
+        /// This extension method utilizes the `Where` clause on the provided `sequence` of strings.
+        /// It employs a lambda expression (`item => !string.IsNullOrWhiteSpace(item)`) as the filtering condition.
+        /// The `string.IsNullOrWhiteSpace` method checks if a string is null, empty, or consists only of whitespace characters.
+        /// By negating the result (`!`), the filter includes only elements that are not null, empty, or whitespace.
+        /// This approach offers a concise way to filter out unwanted strings from a sequence while leveraging LINQ for efficient iteration.
+        /// </remarks>
+        public static IEnumerable<string> WhereNotEmpty(this IEnumerable<string> sequence)
+            => sequence.Where(item => !string.IsNullOrWhiteSpace(item));
 
         /// <summary>
         /// Removes duplicate elements from an IEnumerable sequence and returns a new list containing the unique elements.
@@ -265,7 +289,7 @@
         /// <remarks>
         /// This function utilizes an extension method to simplify random element selection. It delegates the actual logic to the `RandomElementUsing` function, passing a newly created `Random` instance for internal use.
         /// </remarks>
-        public static T RandomElement<T>(this IEnumerable<T> sequence) => sequence.RandomElementUsing<T>(new Random());
+        public static T RandomElement<T>(this IEnumerable<T> sequence) => sequence.RandomElementUsing<T>(new Random(Guid.NewGuid().GetHashCode()));
 
         /// <summary>
         /// Selects a random element from the provided sequence using a specified Random instance.
@@ -324,6 +348,44 @@
         /// </remarks>
         public static int FrequencyOf<T>(this IEnumerable<T> sequence, T target)
             => sequence.RemoveNullables().Where(element => element.Equals(target)).Count();
+
+        /// <summary>
+        /// Converts all strings in a sequence to lowercase.
+        /// </summary>
+        /// <param name="sequence">The sequence of strings to be converted.</param>
+        /// <returns>A new IEnumerable containing the lowercase versions of the original strings.</returns>
+        /// <remarks>
+        /// This extension method iterates through each string in the provided `enumerable` sequence.
+        /// For each string, it utilizes the `ToLower` method to convert it to lowercase.
+        /// The `yield return` keyword is used to efficiently return each converted string
+        /// without materializing the entire resulting sequence at once.
+        /// This approach improves memory usage when dealing with large datasets.
+        /// The original `enumerable` object remains unmodified.
+        /// </remarks>
+        [Pure]
+        public static IEnumerable<string> ToLower(this IEnumerable<string> sequence) {
+            foreach (string str in sequence) {
+                yield return str.ToLower();
+            }
+        }
+
+        /// <summary>
+        /// Converts all strings in a sequence to uppercase.
+        /// </summary>
+        /// <param name="sequence">The sequence of strings to be converted.</param>
+        /// <returns>A new IEnumerable containing the uppercase versions of the original strings.</returns>
+        /// <remarks>
+        /// This extension method behaves similarly to `ToLower`. It iterates through each string
+        /// in the `enumerable` sequence and utilizes the `ToUpper` method for conversion.
+        /// The `yield return` keyword ensures efficient memory usage during the iteration.
+        /// A new sequence containing the uppercase strings is returned, leaving the original `enumerable` intact.
+        /// </remarks>
+        [Pure]
+        public static IEnumerable<string> ToUpper(this IEnumerable<string> sequence) {
+            foreach (string str in sequence) {
+                yield return str.ToUpper();
+            }
+        }
 
     }
 
