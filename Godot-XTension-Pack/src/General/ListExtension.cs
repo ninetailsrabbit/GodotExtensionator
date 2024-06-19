@@ -116,7 +116,6 @@
         public static void Shuffle<T>(this IList<T> sequence) {
             int n = sequence.Count;
 
-
             while (n > 1) {
                 n--;
                 int k = _rng.Next(n + 1);

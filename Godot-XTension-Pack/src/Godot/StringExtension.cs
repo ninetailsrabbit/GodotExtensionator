@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Godot_XTension_Pack {
@@ -182,6 +183,20 @@ namespace Godot_XTension_Pack {
         /// </remarks>
         public static bool EqualsCultureIgnoreCase(this string source, string other)
            => source.Equals(other, StringComparison.CurrentCultureIgnoreCase);
+
+        /// <summary>
+        /// Repeats a given string a specified number of times.
+        /// </summary>
+        /// <param name="value">The string to repeat.</param>
+        /// <param name="count">The number of times to repeat the string.</param>
+        /// <returns>A new string containing the repeated value.</returns>
+        /// <remarks>
+        /// This method uses a `StringBuilder` for efficient string concatenation when repeating a string multiple times.
+        /// It avoids creating temporary strings in each iteration, improving performance.
+        /// </remarks>
+        public static string Repeat(this string value, int count)
+            => new StringBuilder(value.Length * count).Insert(0, value, count).ToString();
+
     }
 
 }
