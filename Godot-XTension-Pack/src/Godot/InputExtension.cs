@@ -14,6 +14,7 @@ namespace Godot_XTension_Pack {
         /// <param name="event">The InputEvent to check.</param>
         /// <returns>True if the event is a left mouse button click, false otherwise.</returns>
         public static bool IsMouseLeftClick(this InputEvent @event) {
+            
             if (@event is InputEventMouseButton button)
                 return button.ButtonIndex == MouseButton.Left && button.Pressed;
 

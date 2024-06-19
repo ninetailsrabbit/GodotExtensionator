@@ -197,6 +197,38 @@ namespace Godot_XTension_Pack {
         public static string Repeat(this string value, int count)
             => new StringBuilder(value.Length * count).Insert(0, value, count).ToString();
 
+        /// <summary>
+        /// Checks if all characters in a string are uppercase letters.
+        /// </summary>
+        /// <param name="value">The string to check.</param>
+        /// <returns>True if all characters in the string are uppercase, false otherwise.</returns>
+        /// <example>
+        /// This example shows how to use the IsUpper method:
+        /// <code>
+        /// string text = "HELLO WORLD";
+        /// bool isUpper = text.IsUpper();  // isUpper will be false
+        /// 
+        /// text = "ABCDEFG";
+        /// isUpper = text.IsUpper();  // isUpper will be true
+        /// </code>
+        /// </example>
+        public static bool IsUpper(this string value) => value.All(char.IsUpper);
+        /// <summary>
+        /// Checks if all characters in a string are lowercase letters.
+        /// </summary>
+        /// <param name="value">The string to check.</param>
+        /// <returns>True if all characters in the string are lowercase, false otherwise.</returns>
+        /// <example>
+        /// This example shows how to use the IsLower method:
+        /// <code>
+        /// string text = "hello world";
+        /// bool isLower = text.IsLower();  // isLower will be true
+        /// 
+        /// text = "This Has Mixed Case";
+        /// isLower = text.IsLower();  // isLower will be false
+        /// </code>
+        /// </example>
+        public static bool IsLower(this string value) => value.All(char.IsLower);
     }
 
 }

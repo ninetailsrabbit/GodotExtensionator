@@ -502,6 +502,18 @@ This extensions provides helpful functions for manipulate or generate strings.
 // Truncates the specified string to the given maximum length and adds a suffix if necessary, default suffix it's '...'
 "my super longer text that needs to be truncated".Truncate(20); // my super longer text...
 "my super longer text that needs to be truncated".Truncate(25, "---"); // my super longer text that---
+
+// Repeat a string
+"*".Repeat(5) // "*****"
+
+// Check if a string is upper or lower
+
+"IM SUPER UPPER".IsUpper() // True
+"im lower".IsLower() // True
+
+"HeY ComES the CHEF!".IsUpper(); // False
+"HeY ComES the CHEF!".IsLower(); // False
+
 ```
 
 ### Mesh
