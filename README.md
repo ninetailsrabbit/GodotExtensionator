@@ -21,6 +21,8 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
   - [Usage](#usage)
     - [General](#general)
     - [GenericGodotWrapper](#genericgodotwrapper)
+    - [Singleton](#singleton)
+    - [Identity Resource](#identity-resource)
     - [AudioStreamPlayer](#audiostreamplayer)
     - [Camera 3D](#camera-3d)
     - [Color](#color)
@@ -191,6 +193,42 @@ private void OnConsumedSequence(GenericGodotWrapper<Sequence> sequenceWrapper) {
     //...
 }
 
+```
+
+### Singleton
+
+Easily convert any class to a singleton using `SingletonBase` class
+
+```csharp
+
+public sealed class Preloader : SingletonBase<Preloader> {
+
+   public readonly CompressedTexture2D OrangeSelectedTileTexture = GD.Load<CompressedTexture2D>("res://scenes/components/cells/assets/1.png");
+
+ }
+
+
+// Access the instance properties & methods with
+
+Preloader.Instance.OrangeSelectedTileTexture
+```
+
+### Identity Resource
+
+Create resources that need a unique identifier by inheriting from this class and calling its base constructor
+
+```csharp
+ public class WeaponResource : IdentityResource {
+
+     [Export] public int Damage;
+
+     public WeaponResource(): base() {}
+ }
+
+
+ //Access ID with
+ WeaponResource spear = new WeaponResource();
+ spear.GetId(); // 0f8fad5b-d9cb-469f-a165-70867728950e
 ```
 
 ### AudioStreamPlayer
