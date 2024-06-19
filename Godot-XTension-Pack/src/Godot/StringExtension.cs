@@ -1,4 +1,5 @@
 ﻿using Godot;
+using Godot_XTension_Pack.src.General;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ namespace Godot_XTension_Pack {
         public static readonly string ASCII_UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public static readonly string ASCII_DIGITS = "0123456789";
         public static readonly string ASCII_PUNCTUATION = "!\"#$%&'()*+, -./:;<=>?@[\\]^_`{|}~";
+        public static readonly string[] ESCAPE_CHARACTERS = ["\r", "\n", "\t", "\v", @"\c", @"\e", "\f", "\a", "\b", "\\", @"\NNN", @"\xHH"];
 
         /// <summary>
         /// Alternative version from HexToint(). Converts a hexadecimal string to its corresponding decimal value.
@@ -35,7 +37,6 @@ namespace Godot_XTension_Pack {
 
             return ((int)Mathf.Ceil(decimalValue));
         }
-
 
         /// <summary>
         /// Converts a Roman numeral string to its corresponding integer value.
@@ -81,21 +82,36 @@ namespace Godot_XTension_Pack {
         public static string StripBBcode(this string bbcode) => StripBBCodeRegex().Replace(bbcode, "");
 
         /// <summary>
+        /// Removes HTML tags from a string while preserving whitespace characters.
+        /// </summary>
+        /// <param name="html">The string potentially containing HTML tags to be stripped. (Can be null)</param>
+        /// <returns>A new string with HTML tags removed, preserving whitespace.</returns>
+        /// <remarks>
+        /// This method first checks if the input string (`html`) is null or empty using `string.IsNullOrEmpty`.
+        /// If so, it returns an empty string immediately. Otherwise, it performs the following steps:
+        ///   - Utilizes a pre-defined regular expression (assumed to be stored in a `StripHtmlRegex` method) to match and replace HTML tags with empty strings.
+        ///   - Replaces the non-breaking space entity "&nbsp;" with a regular space character " ".
+        ///   - Replaces the character reference for a non-breaking space "&#160;" with an empty string.
+        /// By performing these replacements, the method effectively removes HTML tags while maintaining whitespace characters.
+        /// </remarks>
+        public static string StripHTML(this string? html) {
+            if (string.IsNullOrEmpty(html))
+                return string.Empty;
+
+            html = StripHtmlRegex().Replace(html, string.Empty);
+
+            return html.Replace("&nbsp;", " ", StringComparison.OrdinalIgnoreCase)
+                       .Replace("&#160;", string.Empty, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// Removes Godot-specific path information from a string using a pre-compiled regular expression.
         /// </summary>
         /// <param name="path">The string containing a Godot path.</param>
         /// <returns>A new string with the Godot path information stripped (assumed format).</returns>
         public static string StripGodotPath(this string path) => AbsoluteGodotPathRegex().Replace(path, "");
-
-        [GeneratedRegex(@"\[.+?\]")]
-        private static partial Regex StripBBCodeRegex();
-
-        [GeneratedRegex("res://([^ ])+")]
-        private static partial Regex AbsoluteGodotPathRegex();
-
         public static bool IsNullOrEmpty(this string text) => string.IsNullOrEmpty(text);
         public static bool IsNullOrWhitespace(this string text) => string.IsNullOrWhiteSpace(text);
-
 
         /// <summary>
         /// Checks if a provided path is a valid file path.
@@ -229,6 +245,82 @@ namespace Godot_XTension_Pack {
         /// </code>
         /// </example>
         public static bool IsLower(this string value) => value.All(char.IsLower);
+
+        /// <summary>
+        /// Checks if a string contains at least one special character.
+        /// </summary>
+        /// <param name="value">The string to check.</param>
+        /// <returns>True if the string contains at least one special character, false otherwise.</returns>
+        /// <remarks>
+        /// This method uses the `IsSpecialCharacter` method to check each character in the string.
+        /// A special character is defined as any character included in the ASCII_PUNCTUATION set.
+        /// </remarks>
+        public static bool HasSpecialCharacter(this string value) => value.Trim().Any(IsSpecialCharacter);
+
+        /// <summary>
+        /// Checks if a character is considered a special character.
+        /// </summary>
+        /// <param name="value">The character to check.</param>
+        /// <returns>True if the character is a special character, false otherwise.</returns>
+        /// <remarks>
+        /// This method checks if the character is included in the built-in `ASCII_PUNCTUATION` set.
+        /// The `ASCII_PUNCTUATION` set contains various punctuation marks and symbols.
+        /// </remarks>
+        public static bool IsSpecialCharacter(this char value) => value.In(ASCII_PUNCTUATION);
+
+        /// <summary>
+        /// Checks if a string can be parsed into a valid integer.
+        /// </summary>
+        /// <param name="value">The string to check.</param>
+        /// <returns>True if the string can be parsed as an integer, false otherwise.</returns>
+        /// <remarks>
+        /// This method uses `int.TryParse` to attempt to convert the string to an integer.
+        /// It discards the output integer value using the discard underscore (`_`).
+        /// If the parsing is successful (returns true), the string is considered a valid number.
+        /// </remarks>
+        public static bool IsNumber(this string value) => int.TryParse(value, out _);
+
+        /// <summary>
+        /// Checks if a string contains any escape characters from a predefined set.
+        /// </summary>
+        /// <param name="value">The string to check.</param>
+        /// <returns>True if the string contains at least one escape character, false otherwise.</returns>
+        /// <remarks>
+        /// This method uses `ESCAPE_CHARACTERS` (assumed to be a static array of escape character strings)
+        /// to check if any of the escape characters exist within the provided string.
+        /// It utilizes the `Any` method from LINQ to perform the efficient check.
+        /// </remarks>
+        public static bool ContainsEscapeCharacters(this string value)
+            => ESCAPE_CHARACTERS.Any(value.Contains);
+
+        /// <summary>
+        /// Removes all escape characters from a string based on a predefined set.
+        /// </summary>
+        /// <param name="value">The string from which to remove escape characters.</param>
+        /// <returns>A new string with all escape characters removed, or the original string if none were found.</returns>
+        /// <remarks>
+        /// This method first checks if the string contains any escape characters using the `ContainsEscapeCharacters` method.
+        /// If escape characters are present, it splits the string using the `ESCAPE_CHARACTERS` array and `StringSplitOptions.RemoveEmptyEntries`.
+        /// Finally, it joins the split parts into a new string without the escape characters.
+        /// If no escape characters are found, the original string is returned.
+        /// </remarks>
+        public static string RemoveEscapeCharacters(this string value) {
+            if (value.ContainsEscapeCharacters())
+                return string.Join("", value.Split(ESCAPE_CHARACTERS, StringSplitOptions.RemoveEmptyEntries));
+
+            return value;
+        }
+
+        [GeneratedRegex(@"\[.+?\]")]
+        private static partial Regex StripBBCodeRegex();
+
+        [GeneratedRegex("res://([^ ])+")]
+        private static partial Regex AbsoluteGodotPathRegex();
+
+        [GeneratedRegex(@"[^\u0000-\u007F]", RegexOptions.Compiled)]
+        private static partial Regex UnicodeRegex();
+        [GeneratedRegex("<[^>]*>", RegexOptions.Compiled)]
+        private static partial Regex StripHtmlRegex();
     }
 
 }

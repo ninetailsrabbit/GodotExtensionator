@@ -1,11 +1,14 @@
 ﻿using Godot;
 using Godot.Collections;
+using System.Collections;
 using System.Numerics;
 
 namespace Godot_XTension_Pack {
     public static partial class MathExtension {
         private static readonly RandomNumberGenerator _rng = new();
 
+        public static readonly float PI = 3.141593f;
+        public static readonly float DEG2RAD = 57.29578f;
         public static readonly float COMMON_EPSILON = 0.000001f;  // 1.0e-6
         public static readonly float PRECISE_EPSILON = 0.00000001f; // 1.0e-8
         public static readonly float E = 2.71828182845904523536f;
@@ -395,6 +398,83 @@ namespace Godot_XTension_Pack {
         /// <returns>The delta time converted to seconds.</returns>
         public static double DeltaToTime(this double delta) => 1d / delta * 0.001d;
 
+        /// <summary>
+        /// Converts a BitArray with a length of 8 to a single byte.
+        /// </summary>
+        /// <param name="bits">The BitArray to convert. (Must have a length of 8)</param>
+        /// <returns>A byte representing the value of the BitArray.</returns>
+        /// <exception cref="ArgumentException">Thrown if the BitArray length is not 8.</exception>
+        /// <remarks>
+        /// This method validates the BitArray length to ensure it's 8 bits. If not, an ArgumentException is thrown.
+        /// Otherwise, it creates a byte array of size 1 and copies the BitArray bits into it using CopyTo.
+        /// Finally, the first element (index 0) of the byte array is returned as the resulting byte.
+        /// </remarks>
+        public static byte ToByte(this BitArray bits) {
+            if (bits.Count != 8)
+                throw new ArgumentException("BitsToByte: Bits needs to have a length of 8");
+
+            byte[] bytes = new byte[1];
+            bits.CopyTo(bytes, 0);
+
+            return bytes[0];
+        }
+
+        /// <summary>
+        /// Converts an array of up to 8 booleans to a single byte.
+        /// </summary>
+        /// <param name="bools">The boolean array to convert. (Maximum length of 8)</param>
+        /// <returns>A byte representing the value of the boolean array.</returns>
+        /// <exception cref="ArgumentException">Thrown if the boolean array length is greater than 8.</exception>
+        /// <remarks>
+        /// This method validates the boolean array length to ensure it's less than or equal to 8. 
+        /// If not, an ArgumentException is thrown. Otherwise, it creates a new BitArray and sets each bit based on the corresponding boolean value.
+        /// Finally, the BitsToByte method is called to convert the BitArray to a byte.
+        /// </remarks>
+        public static byte ToByte(this bool[] bools) {
+            if (bools.Length > 8)
+                throw new ArgumentException("BoolsToByte: This method only support 8 bools at a time");
+
+            BitArray total = new(new byte[1]);
+
+            for (int i = 0; i < bools.Length; i++)
+                total.Set(i, bools[i]);
+
+
+            return total.ToByte();
+        }
+
+        /// <summary>
+        /// Converts a single byte to a BitArray representing its individual bits.
+        /// </summary>
+        /// <param name="b">The byte to convert.</param>
+        /// <returns>A BitArray containing the bits of the byte.</returns>
+        /// <remarks>
+        /// This method creates a byte array containing the single byte and then converts it to a BitArray using the built-in constructor.
+        /// </remarks>
+        public static BitArray ToBits(this byte b) {
+            byte[] bytes = [b];
+
+            return new BitArray(bytes);
+        }
+
+        /// <summary>
+        /// Converts a single byte to an array of booleans with a specified length.
+        /// </summary>
+        /// <param name="b">The byte to convert.</param>
+        /// <param name="length">The desired length of the boolean array. (Must be less than or equal to 8)</param>
+        /// <returns>An array of booleans representing the bits of the byte, padded with false if the length is less than 8.</returns>
+        /// <exception cref="ArgumentException">Thrown if the desired length is greater than 8.</exception>
+        /// <remarks>
+        public static bool[] ByteToBools(this byte b, int length) {
+            bool[] bools = new bool[length];
+
+            BitArray bits = b.ToBits();
+
+            for (int i = 0; i < length; i++)
+                bools[i] = bits[i];
+
+            return bools;
+        }
 
     }
 }

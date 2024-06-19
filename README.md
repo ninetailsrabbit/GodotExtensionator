@@ -506,6 +506,9 @@ This extensions provides helpful functions for manipulate or generate strings.
 // Strip the BBCode from a text
 "game [color=yellow]development[/color] it's hard".StripBBcode() // game development is hard
 
+// Strip html from text
+"<p>my html paragraph</p>".StripHtml(); //my html paragraph
+
 // Removes any text starting with "res://" followed by one or more non-space characters.
 "res://assets/icons".StripGodotPath() // "assets/icons/"
 "res ://  assets/icons".StripGodotPath() // "assets/icons/"
@@ -551,6 +554,7 @@ This extensions provides helpful functions for manipulate or generate strings.
 
 "HeY ComES the CHEF!".IsUpper(); // False
 "HeY ComES the CHEF!".IsLower(); // False
+
 
 ```
 

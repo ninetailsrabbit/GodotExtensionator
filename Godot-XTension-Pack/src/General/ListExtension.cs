@@ -2,6 +2,21 @@
     public static class ListExtension {
         private static readonly Random _rng = new();
 
+
+        /// <summary>
+        /// Creates an enumeration that assigns indexes to each item in the original sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="sequence">The sequence to be enumerated with indexes.</param>
+        /// <returns>An IEnumerable of tuples containing the item and its corresponding index.</returns>
+        /// <remarks>
+        /// This method leverages the `Select` method from LINQ. It iterates through the original sequence (`sequence`)
+        /// and for each item (`item`), it creates a tuple containing the item itself and its current index within the sequence.
+        /// The resulting IEnumerable contains these tuples, allowing you to access both the item and its position during iteration.
+        /// </remarks>
+        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> sequence)
+            => sequence.Select((item, index) => (item, index));
+
         /// <summary>
         /// Removes and returns the element at the specified index from the list.
         /// </summary>
@@ -134,6 +149,13 @@
 
             return numbers.Aggregate(0, (accum, current) => accum + current);
         }
+
+        /// <summary>
+        /// Calculates the average (arithmetic mean) of a sequence of integer values.
+        /// </summary>
+        /// <param name="numbers">The sequence of integer numbers.</param>
+        /// <returns>The average value of the numbers, or 0 if the sequence is empty.</returns>
+        public static int Mean(this IEnumerable<int> numbers) => Average(numbers);
 
         /// <summary>
         /// Calculates the average (arithmetic mean) of a sequence of floating-point values.
@@ -287,6 +309,22 @@
                     .OrderBy(x => x)
                     .Select((x, i) => sequence[x + i]);
         }
+
+        /// <summary>
+        /// Counts the frequency of a specific element within a sequence, excluding null values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="sequence">The sequence to search (iterable).</param>
+        /// <param name="target">The element to count occurrences of.</param>
+        /// <returns>The number of times the target element appears in the sequence, excluding null values.</returns>
+        /// <remarks>
+        /// This method first filters out any null values from the sequence using `RemoveNullables` (assumed to be an extension method).
+        /// Then, it uses `Where` to filter the remaining elements where they are equal to the target element.
+        /// Finally, it counts the number of elements in the filtered sequence using `Count`, providing the frequency of the target element.
+        /// </remarks>
+        public static int FrequencyOf<T>(this IEnumerable<T> sequence, T target)
+            => sequence.RemoveNullables().Where(element => element.Equals(target)).Count();
+
     }
 
 }
