@@ -178,7 +178,7 @@ namespace Godot_XTension_Pack {
 
             Array<T> ancestors = [];
 
-            while (parent != null) {
+            while (parent is not null) {
                 ancestors.Add(parent);
                 parent = parent.GetParentOrNull<T>();
             }
@@ -201,7 +201,7 @@ namespace Godot_XTension_Pack {
 
             Array<Node> ancestors = [];
 
-            while (parent != null) {
+            while (parent is not null) {
                 ancestors.Add(parent);
                 parent = parent.GetParentOrNull<Node>();
             }
@@ -356,7 +356,7 @@ namespace Godot_XTension_Pack {
         public static int GetTreeDepth(this Node node) {
             int depth = 0;
 
-            while (node.GetParent() != null) {
+            while (node.GetParent() is not null) {
                 depth++;
                 node = node.GetParent();
             }
@@ -370,7 +370,7 @@ namespace Godot_XTension_Pack {
         /// <param name="node">The Node object to check for validity.</param>
         /// <returns>True if the node is not null, is a valid Godot object instance, and not queued for deletion, False otherwise.</returns>
         public static bool IsValid(this Node node) {
-            return node != null && GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
+            return node is not null && GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
         }
 
         /// <summary>
