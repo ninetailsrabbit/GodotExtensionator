@@ -45,6 +45,33 @@ namespace Godot_XTension_Pack {
         }
 
         /// <summary>
+        /// Enables all child nodes recursively within the current node.
+        /// </summary>
+        /// <param name="node">The Node whose children should be enabled.</param>
+        public static void EnableChildrens(this Node node) {
+            foreach (var child in node.GetAllChildren())
+                child.Enable();
+        }
+
+        /// <summary>
+        /// Disables all child nodes recursively within the current node.
+        /// </summary>
+        /// <param name="node">The Node whose children should be disabled.</param>
+        public static void DisableChildrens(this Node node) {
+            foreach (var child in node.GetAllChildren())
+                child.Disable();
+        }
+
+        /// <summary>
+        /// Remove all the groups this node it's attached
+        /// </summary>
+        /// <param name="node"></param>
+        public static void RemoveFromAllGroups(this Node node) {
+            foreach (var group in node.GetGroups())
+                node.RemoveFromGroup(group);
+        }
+
+        /// <summary>
         /// Retrieves an autoloaded node by its name.
         /// </summary>
         /// <typeparam name="T">The type of the autoloaded node to retrieve. Must be a reference type (class).</typeparam>
