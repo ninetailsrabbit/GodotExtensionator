@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Godot_XTension_Packs {
+namespace Godot_XTension_Pack {
 
     [Tool]
     [GlobalClass]
