@@ -14,7 +14,7 @@
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
-		<Version>0.2.7</Version>
+		<Version>0.2.8</Version>
 		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>

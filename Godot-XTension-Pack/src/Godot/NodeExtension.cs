@@ -175,7 +175,6 @@ namespace Godot_XTension_Pack {
             if (parent == null)
                 return [];
 
-
             Array<T> ancestors = [];
 
             while (parent is not null) {
@@ -220,7 +219,7 @@ namespace Godot_XTension_Pack {
         public static Array<T> GetAllChildren<[MustBeVariant] T>(this Node node) where T : Node {
             Array<T> childrens = [];
 
-            foreach (T child in node.GetChildren(true).Where((childNode) => childNode is T)) {
+            foreach (T child in node.GetChildren(true).OfType<T>()) {
                 childrens.Add(child);
 
                 if (child.GetChildCount() > 0) {
@@ -263,7 +262,6 @@ namespace Godot_XTension_Pack {
             }
         }
 
-
         /// <summary>
         /// Retrieves the first node of the specified type from a given group in the scene tree.
         /// </summary>
@@ -278,9 +276,9 @@ namespace Godot_XTension_Pack {
         /// </remarks>
 
 #nullable enable
-        public static T? GetFirstNodeInGroup<T>(this Node node, string group) where T : Node {
-            return node.GetTree().GetFirstNodeInGroup(group) as T;
-        }
+        public static T? GetFirstNodeInGroup<T>(this Node node, string group) where T : Node
+            => node.GetTree().GetFirstNodeInGroup(group) as T;
+
 
         /// <summary>
         /// Retrieves all nodes of the specified type from a given group in the scene tree.
@@ -295,10 +293,8 @@ namespace Godot_XTension_Pack {
         /// This function uses the Godot `GetNodesInGroup` method and then casts each element in the returned array to the specified type T.
         /// Any element that cannot be cast is omitted from the resulting collection.
         /// </remarks>
-        public static IEnumerable<T> GetNodesInGroup<T>(this Node node, string group) where T : Node {
-            return node.GetTree().GetNodesInGroup(group.StripEdges()).Cast<T>();
-        }
-
+        public static Array<T> GetNodesInGroup<T>(this Node node, string group) where T : Node =>
+            (Array<T>)node.GetTree().GetNodesInGroup(group.StripEdges()).Cast<T>();
 
         /// <summary>
         /// Removes all child nodes from the specified target node and queues them for freeing in Godot.
@@ -369,9 +365,9 @@ namespace Godot_XTension_Pack {
         /// </summary>
         /// <param name="node">The Node object to check for validity.</param>
         /// <returns>True if the node is not null, is a valid Godot object instance, and not queued for deletion, False otherwise.</returns>
-        public static bool IsValid(this Node node) {
-            return node is not null && GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
-        }
+        public static bool IsValid(this Node node)
+            => node is not null && GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
+
 
         /// <summary>
         /// Emits a signal on a Node safely, checking for node validity and signal existence before emitting.

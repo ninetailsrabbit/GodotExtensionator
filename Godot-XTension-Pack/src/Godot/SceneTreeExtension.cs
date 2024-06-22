@@ -134,6 +134,7 @@ namespace Godot_XTension_Pack {
                 tree.Paused = false;
             }
         }
+
     }
 
 }
