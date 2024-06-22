@@ -5,7 +5,6 @@ using System.Numerics;
 
 namespace Godot_XTension_Pack {
     public static partial class MathExtension {
-        private static readonly RandomNumberGenerator _rng = new();
 
         public static readonly float PI = 3.141593f;
         public static readonly float DEG2RAD = 57.29578f;

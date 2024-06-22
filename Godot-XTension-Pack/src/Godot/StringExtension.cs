@@ -1,5 +1,5 @@
-﻿using Godot;
-using Godot_XTension_Pack.src.General;
+﻿using Extensionator;
+using Godot;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;

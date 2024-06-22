@@ -14,7 +14,7 @@
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
-		<Version>0.2.2</Version>
+		<Version>0.2.5</Version>
 		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
@@ -44,6 +44,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.1.0" />
 		<PackageReference Include="SauceControl.InheritDoc" Version="2.0.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
