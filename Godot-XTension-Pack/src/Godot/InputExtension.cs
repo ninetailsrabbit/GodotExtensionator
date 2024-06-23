@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Extensionator;
+using Godot;
 
 namespace Godot_XTension_Pack {
     public static class InputExtension {
@@ -6,6 +7,12 @@ namespace Godot_XTension_Pack {
         /// An array containing the keycodes for numeric keys (0-9 and numpad 0-9).
         /// </summary>
         public static readonly int[] NumericKeys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
+
+        /// <summary>
+        /// Check if the current event it's InputEventMouseButton
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
         public static bool IsMouseButton(this InputEvent @event) => @event is InputEventMouseButton;
 
         /// <summary>
@@ -110,7 +117,13 @@ namespace Godot_XTension_Pack {
         /// Checks if the mouse cursor is currently visible on the screen.
         /// </summary>
         /// <returns>True if the mouse cursor is visible (either normally or confined), false otherwise.</returns>
-        public static bool IsMouseVisible() => Input.MouseMode.Equals(Input.MouseModeEnum.Visible) || Input.MouseMode.Equals(Input.MouseModeEnum.Confined);
+        public static bool IsMouseVisible() => Input.MouseMode.In(Input.MouseModeEnum.Visible, Input.MouseModeEnum.Confined);
+
+        /// <summary>
+        /// Checks if the mouse cursor is currently captured on the screen.
+        /// </summary>
+        /// <returns>True if the mouse cursor is captured, false otherwise.</returns>
+        public static bool IsMouseCaptured() => Input.MouseMode.Equals(Input.MouseModeEnum.Captured);
 
         /// <summary>
         /// Checks if the provided InputEvent is a key press event for a numeric key.
@@ -121,7 +134,6 @@ namespace Godot_XTension_Pack {
 
             return @event is InputEventKey key && key.Pressed && (NumericKeys.Contains((int)key.Keycode) || NumericKeys.Contains((int)key.PhysicalKeycode));
         }
-
 
         /// <summary>
         /// Converts an InputEvent object into a human-readable string representation with modifiers.
@@ -170,8 +182,7 @@ namespace Godot_XTension_Pack {
         /// <remarks>
         /// This function utilizes the `InputMap.ActionGetEvents` method to retrieve a collection of InputEvents related to the provided action name. 
         /// </remarks>
-        public static IEnumerable<InputEvent> GetAllInputsForAction(StringName action)
-            => InputMap.ActionGetEvents(action);
+        public static IEnumerable<InputEvent> GetAllInputsForAction(StringName action) => InputMap.ActionGetEvents(action);
 
 
         /// <summary>

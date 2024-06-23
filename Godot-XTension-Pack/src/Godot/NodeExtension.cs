@@ -71,6 +71,7 @@ namespace Godot_XTension_Pack {
                 node.RemoveFromGroup(group);
         }
 
+
         /// <summary>
         /// Retrieves an autoloaded node by its name.
         /// </summary>
