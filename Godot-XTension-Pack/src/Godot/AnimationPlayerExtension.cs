@@ -6,6 +6,22 @@ namespace Godot_XTension_Pack {
         const string RESET_ANIMATION = "RESET";
 
         /// <summary>
+        /// Returns a `SignalAwaiter` that awaits the `AnimationStarted` signal from the specified `AnimationPlayer`.
+        /// </summary>
+        /// <param name="animationPlayer">The `AnimationPlayer` instance to monitor for the start signal.</param>
+        public static SignalAwaiter WaitToStart(this AnimationPlayer animationPlayer)
+          => animationPlayer.ToSignal(animationPlayer, AnimationMixer.SignalName.AnimationStarted);
+
+        /// <summary>
+        /// Returns a `SignalAwaiter` that awaits the `AnimationFinished` signal from the specified `AnimationPlayer`.
+        /// </summary>
+        /// <param name="animationPlayer">The `AnimationPlayer` instance to monitor for the finished signal.</param>
+        /// <returns>A `SignalAwaiter` that allows waiting for the animation to finish playing.</returns>
+        public static SignalAwaiter WaitToFinished(this AnimationPlayer animationPlayer)
+            => animationPlayer.ToSignal(animationPlayer, AnimationMixer.SignalName.AnimationFinished);
+
+
+        /// <summary>
         /// Queues an animation for playback in the specified `AnimationPlayer`.
         /// </summary>
         /// <param name="animationPlayer">The `AnimationPlayer` instance to queue the animation on.</param>

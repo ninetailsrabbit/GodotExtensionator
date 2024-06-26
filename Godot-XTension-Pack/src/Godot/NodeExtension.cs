@@ -72,6 +72,15 @@ namespace Godot_XTension_Pack {
         }
 
         /// <summary>
+        /// Attempts to mark the input as handled for the viewport associated with the specified node, if the node is valid.
+        /// </summary>
+        /// <param name="node">The node for which to handle input.</param>
+        public static void HandleInput(this Node node) {
+            if (node.IsValid())
+                node.GetViewport()?.SetInputAsHandled();
+        }
+
+        /// <summary>
         /// Gets the root node of the tree containing the specified node.
         /// </summary>
         /// <param name="node">The node for which to retrieve the root node.</param>

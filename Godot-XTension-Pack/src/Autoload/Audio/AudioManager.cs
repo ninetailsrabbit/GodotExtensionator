@@ -93,6 +93,9 @@ public sealed class AudioManager : SingletonBase<AudioManager> {
     public static List<string> EnumerateAvailableBuses()
         => Enumerable.Range(0, AudioServer.BusCount).Select(AudioServer.GetBusName).ToList();
 
+    public void UpdateAvailableBuses() {
+        AvailableBuses = EnumerateAvailableBuses();
+    }
     /// <summary>
     /// Checks if the provided AudioStream is configured to loop playback.
     /// </summary>
