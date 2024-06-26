@@ -3,10 +3,10 @@ using System.Diagnostics;
 
 namespace Godot_XTension_Pack {
     public sealed partial class TransformedInput : RefCounted {
-        public readonly string MoveRightAction = "move_right";
-        public readonly string MoveLeftAction = "move_left";
-        public readonly string MoveForwardAction = "move_forward";
-        public readonly string MoveBackAction = "move_back";
+        public string MoveRightAction { get; private set; } = "move_right";
+        public string MoveLeftAction { get; private set; } = "move_left";
+        public string MoveForwardAction { get; private set; } = "move_forward";
+        public string MoveBackAction { get; private set; } = "move_back";
 
         public Node Actor;
 
@@ -76,5 +76,31 @@ namespace Godot_XTension_Pack {
             PreviousInputDirectionVerticalAxisAppliedDeadzone = InputDirectionVerticalAxisAppliedDeadzone;
             PreviousWorldCoordinateSpaceDirection = WorldCoordinateSpaceDirection;
         }
+
+        #region Setters
+        public TransformedInput ChangeMoveRightAction(string action) {
+            MoveRightAction = action;
+
+            return this;
+        }
+
+        public TransformedInput ChangeMoveLeftAction(string action) {
+            MoveLeftAction = action;
+
+            return this;
+        }
+
+        public TransformedInput ChangeMoveForwardAction(string action) {
+            MoveForwardAction = action;
+
+            return this;
+        }
+
+        public TransformedInput ChangeMoveBackAction(string action) {
+            MoveBackAction = action;
+
+            return this;
+        }
+        #endregion
     }
 }
