@@ -2,7 +2,7 @@
 
 namespace Godot_XTension_Pack;
 
-public partial class MusicManager : Node {
+public partial class MusicManagerAutoload : Node {
 
     #region Events
     public delegate void AddedMusicToBankEventHandler(string name, AudioStream stream);

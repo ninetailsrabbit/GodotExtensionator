@@ -3,8 +3,7 @@ using Godot.Collections;
 
 namespace Godot_XTension_Pack {
 
-    [GlobalClass]
-    public partial class FiniteStateMachine : Node {
+    public partial class FiniteStateMachineComponent : Node {
         #region Events
         public delegate void StateChangedEventHandler(MachineState from, MachineState to);
         public event StateChangedEventHandler? StateChanged;

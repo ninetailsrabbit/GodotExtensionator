@@ -3,9 +3,7 @@ using Godot;
 using Godot.Collections;
 
 namespace Godot_XTension_Pack;
-
-[GlobalClass]
-public partial class SoundPool : Node {
+public partial class SoundPoolAutoload : Node {
     public readonly Array<AudioStreamPlayer> StreamPlayersPool = [];
     public int PoolPlayersNumber {
         get => _poolPlayersNumber;
@@ -43,7 +41,6 @@ public partial class SoundPool : Node {
     /// <param name="bus">The audio bus to route the sound to (default: "SFX").</param>
     /// <param name="volume">The volume level (0.0 to 1.0) to apply to the sound (default: 1.0).</param>
     /// <param name="pitch">The pitch value to apply to the playback (default: 1.0 - no pitch shift).</param>
-    /// <remarks>
     public void PlayWithPitch(AudioStream stream, string bus = "SFX", float volume = 1f, float pitch = 0.9f) {
         if (NextAvailableAudioStreamPlayer() is AudioStreamPlayer streamPlayer) {
             streamPlayer.Stream = stream;

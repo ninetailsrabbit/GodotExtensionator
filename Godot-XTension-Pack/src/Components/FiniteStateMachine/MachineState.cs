@@ -2,14 +2,17 @@
 
 namespace Godot_XTension_Pack {
     public abstract partial class MachineState : Node {
-        [Signal]
+        #region Events
+
         public delegate void StateEnteredEventHandler();
+        public event StateEnteredEventHandler? StateEntered;
 
-        [Signal]
         public delegate void StateFinishedEventHandler(MachineState nextState);
+        public event StateFinishedEventHandler? StateFinished;
 
+        #endregion
 
-        public FiniteStateMachine? FSM;
+        public FiniteStateMachineComponent? FSM;
 
         public virtual void Ready() {
 
