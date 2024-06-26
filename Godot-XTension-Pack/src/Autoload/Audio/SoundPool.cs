@@ -4,6 +4,7 @@ using Godot.Collections;
 
 namespace Godot_XTension_Pack;
 
+[GlobalClass]
 public partial class SoundPool : Node {
     public readonly Array<AudioStreamPlayer> StreamPlayersPool = [];
     public int PoolPlayersNumber {

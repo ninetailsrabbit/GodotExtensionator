@@ -86,6 +86,23 @@ namespace Godot_XTension_Pack {
         /// <param name="node">The node for which to retrieve the root node.</param>
         /// <returns>The root node of the tree containing the specified node, or null if the node is not part of a tree.</returns>
         public static Node Root(this Node node) => node.GetTree().Root;
+        public static bool IsRoot(this Node node) => node.Name.ToString().EqualsIgnoreCase("root");
+        public static void AddAutoload<T>(this Node from, T autoloadNode) where T : Node {
+            if (from.IsValid() && from.GetAutoloadNode<T>() is null) {
+
+                var autoload = Activator.CreateInstance(typeof(T)) as Node;
+
+                ArgumentNullException.ThrowIfNull(autoload);
+
+                autoload.Name = nameof(T);
+
+                from = from.IsRoot() ? from : from.Root();
+                from.CallDeferred(Node.MethodName.AddChild, autoload);
+
+                Engine.RegisterSingleton(autoload.Name, autoload);
+            }
+
+        }
 
         /// <summary>
         /// Retrieves an autoloaded node by its name.
