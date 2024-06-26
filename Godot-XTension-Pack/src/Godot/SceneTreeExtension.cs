@@ -19,6 +19,12 @@ namespace Godot_XTension_Pack {
             return tree.Root.GetNode<T>(name is not null ? name : typeof(T).Name);
         }
 
+        /// <summary>
+        /// Retrieves a previously registered singleton instance from the scene's autoload nodes.
+        /// </summary>
+        /// <typeparam name="T">The type of the singleton autoload node to retrieve.</typeparam>
+        /// <param name="name">An optional name for the singleton autoload node. If null, uses the type name of T.</param>
+        /// <returns>The singleton instance of type T from the autoload nodes, or null if not found.</returns>
         public static T GetAutoloadSingleton<T>(string? name = null) where T : class {
             return ((SceneTree)Engine.GetMainLoop()).GetAutoloadNode<T>(name);
         }

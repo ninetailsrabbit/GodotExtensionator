@@ -86,8 +86,21 @@ namespace Godot_XTension_Pack {
         /// <param name="node">The node for which to retrieve the root node.</param>
         /// <returns>The root node of the tree containing the specified node, or null if the node is not part of a tree.</returns>
         public static Node Root(this Node node) => node.GetTree().Root;
+
+        /// <summary>
+        /// Checks if the specified node is the root node of the scene tree.
+        /// </summary>
+        /// <param name="node">The node to check for root status.</param>
+        /// <returns>True if the node is the root node, False otherwise.</returns>
         public static bool IsRoot(this Node node) => node.Name.ToString().EqualsIgnoreCase("root");
-        public static void AddAutoload<T>(this Node from, T autoloadNode) where T : Node {
+
+        /// <summary>
+        /// Attempts to add a new autoload node of type T to the specified node (or its root if not the root itself).
+        /// </summary>
+        /// <typeparam name="T">The type of the autoload node to add.</typeparam>
+        /// <param name="from">The node to add the autoload node to.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the provided autoloadNode is null.</exception>
+        public static void AddAutoload<T>(this Node from) where T : Node {
             if (from.IsValid() && from.GetAutoloadNode<T>() is null) {
 
                 var autoload = Activator.CreateInstance(typeof(T)) as Node;
@@ -101,7 +114,6 @@ namespace Godot_XTension_Pack {
 
                 Engine.RegisterSingleton(autoload.Name, autoload);
             }
-
         }
 
         /// <summary>
