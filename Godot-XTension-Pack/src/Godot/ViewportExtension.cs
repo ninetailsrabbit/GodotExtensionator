@@ -4,6 +4,13 @@ namespace Godot_XTension_Pack {
     public static class ViewportExtension {
 
         /// <summary>
+        /// Gets the root node of the tree containing the specified node.
+        /// </summary>
+        /// <param name="viewport">The viewport for which to retrieve the root node.</param>
+        /// <returns>The root node of the tree containing the specified viewport, or null if the viewport is not part of a tree.</returns>
+        public static Node Root(this Viewport viewport) => viewport.GetTree().Root;
+
+        /// <summary>
         /// (Commented out) Gets the camera frame in 2D coordinates for the specified viewport.
         /// </summary>
         /// <param name="viewport">The viewport for which to retrieve the camera frame.</param>

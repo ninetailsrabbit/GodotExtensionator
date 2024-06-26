@@ -71,6 +71,12 @@ namespace Godot_XTension_Pack {
                 node.RemoveFromGroup(group);
         }
 
+        /// <summary>
+        /// Gets the root node of the tree containing the specified node.
+        /// </summary>
+        /// <param name="node">The node for which to retrieve the root node.</param>
+        /// <returns>The root node of the tree containing the specified node, or null if the node is not part of a tree.</returns>
+        public static Node Root(this Node node) => node.GetTree().Root;
 
         /// <summary>
         /// Retrieves an autoloaded node by its name.

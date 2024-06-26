@@ -11,7 +11,7 @@ namespace Godot_XTension_Pack {
         public Node Actor;
 
         float Deadzone { get => _deadzone; set { _deadzone = Mathf.Clamp(value, 0.0f, 1f); } }
-        float _deadzone = 0.5f;
+        float _deadzone = 0.25f;
 
         #region CurrentInput
         public Vector2 InputDirection { get; set; }
