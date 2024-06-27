@@ -9,12 +9,16 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>.generated</CompilerGeneratedFilesOutputPath>
 		<NoWarn>1591,1573,8601</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
-		<Version>0.3.9</Version>
+		<Version>0.4.0</Version>
 		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
@@ -40,16 +44,9 @@
 
 	<ItemGroup>
 		<!-- Dependencies go here. -->
-		<PackageReference Include="IsExternalInit" Version="1.0.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.1.0" />
-		<PackageReference Include="SauceControl.InheritDoc" Version="2.0.1">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.1.1" />
 		<PackageReference Include="GodotSharp" Version="4.2.2" />
+
 	</ItemGroup>
 
 </Project>

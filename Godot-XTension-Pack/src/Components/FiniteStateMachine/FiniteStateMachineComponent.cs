@@ -33,7 +33,6 @@ namespace Godot_XTension_Pack {
         public bool IsTransitioning = false;
         public bool Locked = false;
 
-
         #region Public
         public override void _Ready() {
             InitializeStateNodes();
