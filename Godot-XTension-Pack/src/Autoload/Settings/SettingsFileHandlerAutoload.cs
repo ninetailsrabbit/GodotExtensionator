@@ -20,7 +20,7 @@ namespace Godot_XTension_Pack {
         public ConfigFile ConfigFileApi = new();
         public bool IncludeUIKeybindings = false;
 
-        public GamepadControllerAutoload GamepadControllerManager = null!;
+        public GamepadControllerAutoload GamepadControllerManager { get; set; } = default!;
 
         public override void _Ready() {
             GamepadControllerManager = this.GetAutoloadNode<GamepadControllerAutoload>("GamepadControllerManager");

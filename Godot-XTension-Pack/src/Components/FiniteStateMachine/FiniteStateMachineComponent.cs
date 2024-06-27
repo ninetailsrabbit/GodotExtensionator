@@ -19,7 +19,7 @@ namespace Godot_XTension_Pack {
         #endregion
 
         #region Exports
-        [Export] public MachineState CurrentState = null!;
+        [Export] public MachineState CurrentState { get; set; } = default!;
         [Export] public bool EnableStack = true;
         [Export] public int StackCapacity = 3;
         [Export] public bool FlushStackWhenReachCapacity = false;

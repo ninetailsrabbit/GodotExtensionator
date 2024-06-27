@@ -24,9 +24,9 @@ public partial class MusicManagerAutoload : Node {
     public const float VOLUME_DB_INAUDIBLE = -80f;
     public const float CROSSFADE_TIME = 2f;
 
-    public AudioStreamPlayer MainAudioStreamPlayer = null!;
-    public AudioStreamPlayer SecondaryAudioStreamPlayer = null!;
-    public AudioStreamPlayer CurrentAudioStreamPlayer = null!;
+    public AudioStreamPlayer MainAudioStreamPlayer { get; set; } = default!;
+    public AudioStreamPlayer SecondaryAudioStreamPlayer { get; set; } = default!;
+    public AudioStreamPlayer CurrentAudioStreamPlayer { get; set; } = default!;
 
     public Dictionary<string, AudioStream> MusicBank = [];
 
