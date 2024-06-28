@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<RootNamespace>Godot_XTension_Pack</RootNamespace>
+		<RootNamespace>GodotExtensionator</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
@@ -11,25 +11,23 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>true</DebugSymbols>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>.generated</CompilerGeneratedFilesOutputPath>
 		<NoWarn>1591,1573,8601</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Title>Ninetailsrabbit.Godot_XTension_Pack</Title>
-		<Version>0.4.0</Version>
-		<Description>Boost your Godot workflow with Godot_XTension_Pack</Description>
+		<Title>Ninetailsrabbit.GodotExtensionator</Title>
+		<Version>0.4.1</Version>
+		<Description>Boost your Godot workflow with GodotExtensionator</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
 		<Company>Ninetailsrabbit</Company>
 
-		<PackageId>Ninetailsrabbit.Godot_XTension_Pack</PackageId>
-		<PackageReleaseNotes>Ninetailsrabbit.Godot_XTension_Pack release.</PackageReleaseNotes>
+		<PackageId>Ninetailsrabbit.GodotExtensionator</PackageId>
+		<PackageReleaseNotes>Ninetailsrabbit.GodotExtensionator release.</PackageReleaseNotes>
 		<PackageTags>godot,plugin,extensions,csharp,gamedev,gamedevelopment</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>https://www.nuget.org/packages/Ninetailsrabbit.Godot_XTension_Pack/</PackageProjectUrl>
+		<PackageProjectUrl>https://www.nuget.org/packages/Ninetailsrabbit.GodotExtensionator/</PackageProjectUrl>
 
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/ninetailsrabbit/Godot-Xtension-Pack</RepositoryUrl>
@@ -46,7 +44,6 @@
 		<!-- Dependencies go here. -->
 		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.1.1" />
 		<PackageReference Include="GodotSharp" Version="4.2.2" />
-
 	</ItemGroup>
 
 </Project>

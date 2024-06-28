@@ -1,20 +1,20 @@
-# Godot XTensions Pack
+# GodotExtensionator
 
 ![license](https://badgen.net/static/License/MIT/yellow)
-[![readme](https://badgen.net/static/README/📃/yellow)](https://github.com/ninetailsrabbit/Godot-Xtension-Pack/README.md)
+[![readme](https://badgen.net/static/README/📃/yellow)](https://github.com/ninetailsrabbit/GodotExtensionator/README.md)
 ![csharp](https://img.shields.io/badge/C%23-239120?style//for-the-badge&logo//c-sharp&logoColor//white)
 
-Speed up your Godot development with Godot-Xtension-Pack which adds a number of functionalities to the base nodes.
+Speed up your Godot development with GodotExtensionator which adds a number of functionalities to the base nodes.
 
 ---
 
 <p align="center">
-<img alt="Godot-XTension-Pack" src="Godot-XTension-Pack/icon.png" width="200">
+<img alt="GodotExtensionator" src="GodotExtensionator/icon.png" width="200">
 </p>
 
 ---
 
-- [Godot XTensions Pack](#godot-xtensions-pack)
+- [GodotExtensionator](#godotextensionator)
   - [Getting started](#getting-started)
     - [.csproj](#csproj)
     - [Installation via CLI](#installation-via-cli)
@@ -53,7 +53,7 @@ Speed up your Godot development with Godot-Xtension-Pack which adds a number of 
 
 ## Getting started
 
-Unlocks a new level of functionality for your Godot projects. This comprehensive collection of C# extensions seamlessly integrates with the existing Godot classes, empowering you to streamline development, enhance game mechanics, and unleash your creative vision. Whether you're a seasoned Godot developer or just starting out, `Godot-XTension-Pack` provides the tools you need to elevate your c# games to the next level.
+Unlocks a new level of functionality for your Godot projects. This comprehensive collection of C# extensions seamlessly integrates with the existing Godot classes, empowering you to streamline development, enhance game mechanics, and unleash your creative vision. Whether you're a seasoned Godot developer or just starting out, `GodotExtensionator` provides the tools you need to elevate your c# games to the next level.
 
 ### .csproj
 
@@ -64,10 +64,10 @@ Add the package directly into your .csproj
 
 <ItemGroup>
 ## Latest stable release
-  <PackageReference Include="Ninetailsrabbit.Godot_XTension_Pack"/>
+  <PackageReference Include="Ninetailsrabbit.GodotExtensionator"/>
 
 ## Manual version
-  <PackageReference Include="Ninetailsrabbit.Godot_XTension_Pack" Version="0.1.5" />
+  <PackageReference Include="Ninetailsrabbit.GodotExtensionator" Version="0.4.1" />
 </ItemGroup>
 ```
 
@@ -76,14 +76,14 @@ Add the package directly into your .csproj
 Further information can be found on the [official microsoft documentation](https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-nuget-cli)
 
 ```sh
-nuget install Ninetailsrabbit.Godot_XTension_Pack
+nuget install Ninetailsrabbit.GodotExtensionator
 
 # Or choosing version
 
-nuget install Ninetailsrabbit.Godot_XTension_Pack -Version 0.1.5
+nuget install Ninetailsrabbit.GodotExtensionator -Version 0.4.1
 
 # Using dotnet
-dotnet add package Ninetailsrabbit.Godot_XTension_Pack --version 0.1.5
+dotnet add package Ninetailsrabbit.GodotExtensionator --version 0.4.1
 ```
 
 ## Usage
