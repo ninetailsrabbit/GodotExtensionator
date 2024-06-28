@@ -2,7 +2,7 @@
 using Godot.Collections;
 using System.Text.RegularExpressions;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
 
     public static partial class NodeExtension {
         // A regular expression to detect original node names

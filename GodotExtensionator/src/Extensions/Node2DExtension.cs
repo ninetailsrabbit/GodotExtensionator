@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static class Node2DExtension {
         /// <summary>
         /// Get the mouse direction this node is pointing to

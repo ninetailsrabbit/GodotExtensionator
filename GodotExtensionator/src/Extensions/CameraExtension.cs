@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static class Camera3DExtension {
         /// <summary>
         /// Gets the world-space origin of the ray projected from the center of the camera's viewport.

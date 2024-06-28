@@ -1,7 +1,7 @@
 ﻿using Extensionator;
 using Godot;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static class InputExtension {
         /// <summary>
         /// An array containing the keycodes for numeric keys (0-9 and numpad 0-9).

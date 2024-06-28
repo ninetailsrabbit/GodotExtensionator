@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static class Rect2Extension {
         /// <summary>
         /// Generates a random point within the bounds of a rectangle.

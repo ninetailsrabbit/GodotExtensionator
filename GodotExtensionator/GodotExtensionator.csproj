@@ -30,7 +30,7 @@
 		<PackageProjectUrl>https://www.nuget.org/packages/Ninetailsrabbit.GodotExtensionator/</PackageProjectUrl>
 
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/ninetailsrabbit/Godot-Xtension-Pack</RepositoryUrl>
+		<RepositoryUrl>https://github.com/ninetailsrabbit/GodotExtensionator</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 	

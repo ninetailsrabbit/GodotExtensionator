@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
 
     public static class TextureExtension {
 

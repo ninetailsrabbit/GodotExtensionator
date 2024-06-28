@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static partial class StringExtension {
 
         private static readonly Random _rng = new(DateTime.Now.Millisecond);

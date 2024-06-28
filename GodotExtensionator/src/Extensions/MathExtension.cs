@@ -3,7 +3,7 @@ using Godot.Collections;
 using System.Collections;
 using System.Numerics;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static partial class MathExtension {
 
         public static readonly float PI = 3.141593f;

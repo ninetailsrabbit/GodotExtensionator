@@ -1,7 +1,7 @@
 ﻿using Godot;
 using Godot.Collections;
 
-namespace Godot_XTension_Pack {
+namespace GodotExtensionator {
     public static class VectorExtension {
         private static readonly RandomNumberGenerator _rng = new();
 
