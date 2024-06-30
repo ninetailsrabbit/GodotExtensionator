@@ -16,7 +16,7 @@
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.GodotExtensionator</Title>
-		<Version>0.4.1</Version>
+		<Version>0.4.2</Version>
 		<Description>Boost your Godot workflow with GodotExtensionator</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
