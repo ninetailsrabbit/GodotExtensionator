@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Extensionator;
+using Godot;
 using Godot.Collections;
 
 namespace GodotExtensionator {
@@ -457,11 +458,11 @@ namespace GodotExtensionator {
         /// <param name="endAngle">The ending angle in radians.</param>
         /// <returns>The signed angle in radians between the two angles.</returns>
         public static float SideAngleByAngles(this Vector2 _, float startAngle, float endAngle) {
-            startAngle = startAngle.NormalizeRadiansAngle();
-            endAngle = endAngle.NormalizeRadiansAngle();
+            var normalizedStartAngle = (float)startAngle.NormalizeRadiansAngle();
+            var normalizedEndAngle = (float)endAngle.NormalizeRadiansAngle();
 
-            Vector2 start = new(startAngle, startAngle);
-            Vector2 end = new(endAngle, endAngle);
+            Vector2 start = new(normalizedStartAngle, normalizedStartAngle);
+            Vector2 end = new(normalizedEndAngle, normalizedEndAngle);
 
             return Vector2.One.SideAngleByVectors(start, end);
         }
