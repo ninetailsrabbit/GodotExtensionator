@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Extensionator;
+using Godot;
 
 namespace GodotExtensionator {
     public static class OSExtension {
