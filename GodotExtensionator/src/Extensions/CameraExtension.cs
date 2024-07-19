@@ -32,6 +32,17 @@ namespace GodotExtensionator {
         /// <param name="node">The node to check for facing the camera.</param>
         /// <returns>True if the node's Z-axis points away from the camera, False otherwise (commented out).</returns>
         public static bool IsFacingCamera(this Camera3D camera, Node3D node) => camera.GlobalPosition.Dot(node.Basis.Z) < 0;
+
+        /// <summary>
+        /// Unprojects a 3D world position onto the 2D screen position within the specified CanvasItem's viewport.
+        /// </summary>
+        /// <param name="canvasItem">The CanvasItem to use for unprojection.</param>
+        /// <param name="position">The 3D world position to unproject.</param>
+        /// <returns>The 2D screen position within the CanvasItem's viewport.</returns>
+        public static Vector2 UnprojectPosition(this CanvasItem canvasItem, Vector3 position) 
+            => canvasItem.GetViewport().GetCamera3D().UnprojectPosition(position);
+        
+
     }
 
 }

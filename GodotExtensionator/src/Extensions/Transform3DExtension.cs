@@ -125,6 +125,30 @@ namespace GodotExtensionator {
         }
 
         /// <summary>
+        /// Aligns the given transform's Y-axis with the specified vector while maintaining orthonormality.
+        /// </summary>
+        /// <param name="transform">The transform to align.</param>
+        /// <param name="newY">The desired Y-axis vector.</param>
+        /// <returns>The aligned transform.</returns>
+        public static Transform3D AlignWithY(this Transform3D transform, Vector3 newY) {
+            transform.Basis.Y = newY;
+
+            // Compute the new x-axis based on the new y-axis
+            transform.Basis.X = Vector3.Up.Cross(newY);
+
+            // If the result is too close to zero (meaning the new y-axis was very close to the up vector)
+            // use a different default vector to ensure we get a valid x-axis
+            if (transform.Basis.X.Length() < 0.00001f)
+                transform.Basis.X = Vector3.Back.Cross(newY);
+
+            // Now compute the new z-axis
+            transform.Basis.Z = transform.Basis.X.Cross(newY);
+            transform.Basis = transform.Basis.Orthonormalized();
+
+            return transform;
+        }
+
+        /// <summary>
         /// Checks if two Transform3D objects are approximately equal in terms of their rotation and position.
         /// </summary>
         /// <param name="from">The first Transform3D object.</param>

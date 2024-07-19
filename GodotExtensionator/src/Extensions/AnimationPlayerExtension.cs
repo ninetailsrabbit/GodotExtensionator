@@ -84,5 +84,21 @@ namespace GodotExtensionator {
                 animationPlayer.Queue(RESET_ANIMATION);
         }
 
+        /// <summary>
+        /// Plays a specified animation on the AnimationPlayer if it exists.
+        /// </summary>
+        /// <param name="animationPlayer">The AnimationPlayer to control.</param>
+        /// <param name="animationName">The name of the animation to play.</param>
+        /// <param name="restart">Optional flag (default false) indicating whether to restart the animation if it's already playing. 
+        ///  If set to true, it will restart regardless of the current playback state.</param>
+        /// <remarks>
+        /// This extension method provides a convenient way to play an animation only if it's present in the AnimationPlayer.
+        /// It also allows control over restarting the animation if it's already playing.
+        /// </remarks>
+        public static void PlayIfExists(this AnimationPlayer animationPlayer, string animationName, bool restart = false) {
+            if (animationPlayer.HasAnimation(animationName) && (!animationPlayer.IsPlaying() || (animationPlayer.IsPlaying() && restart)))
+                animationPlayer.Play(animationName);
+        }
+
     }
 }

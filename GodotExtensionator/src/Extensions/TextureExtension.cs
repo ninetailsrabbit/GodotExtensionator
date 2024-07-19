@@ -101,6 +101,31 @@ namespace GodotExtensionator {
 
             return new Rect2I(0, 0, 0, 0);
         }
+
+        /// <summary>
+        /// Retrieves the color of a pixel from an image based on its UV coordinates.
+        /// </summary>
+        /// <param name="image">The image to sample from.</param>
+        /// <param name="uv">The UV coordinates within the image (0,0 to 1,1).</param>
+        /// <returns>The color of the pixel at the specified UV coordinates.</returns>
+        public static Color GetPixelFromUV(this Image image, Vector2 uv) {
+            Vector2 position = image.GetSize() * uv;
+
+            return image.GetPixelv(new Vector2I(Mathf.RoundToInt(position.X), Mathf.RoundToInt(position.Y)));
+        }
+
+        /// <summary>
+        /// Sets the color of a pixel in an image based on its UV coordinates.
+        /// </summary>
+        /// <param name="image">The image to modify.</param>
+        /// <param name="uv">The UV coordinates within the image (0,0 to 1,1) where the pixel will be set.</param>
+        /// <param name="color">The color to assign to the pixel.</param>
+        public static void SetPixelFromUv(this Image image, Vector2 uv, Color color) {
+            Vector2 position = image.GetSize() * uv;
+
+            image.SetPixelv(new Vector2I(Mathf.RoundToInt(position.X), Mathf.RoundToInt(position.Y)), color);
+        }
+
     }
 
 }

@@ -11,6 +11,16 @@ namespace GodotExtensionator {
         public static Node Root(this Viewport viewport) => viewport.GetTree().Root;
 
         /// <summary>
+        /// Centers the given viewport's window on the screen.
+        /// </summary>
+        /// <param name="viewport">The viewport to center.</param>
+        public static void CenterWindowPosition(this Viewport viewport) {
+            Vector2I centerOfScreen = DisplayServer.ScreenGetPosition() + DisplayServer.ScreenGetSize() / 2;
+            Vector2I windowSize = viewport.GetWindow().GetSizeWithDecorations();
+            viewport.GetWindow().Position = centerOfScreen - windowSize / 2;
+        }
+
+        /// <summary>
         /// (Commented out) Gets the camera frame in 2D coordinates for the specified viewport.
         /// </summary>
         /// <param name="viewport">The viewport for which to retrieve the camera frame.</param>

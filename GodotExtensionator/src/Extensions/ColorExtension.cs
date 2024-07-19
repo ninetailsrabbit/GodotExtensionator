@@ -55,6 +55,17 @@ namespace GodotExtensionator {
 
             return new Color(rng.RandfRange(0, 1f), rng.RandfRange(0, 1f), rng.RandfRange(0, 1f), alpha / 255f);
         }
+
+        /// <summary>
+        /// Converts a color to grayscale by averaging its RGB components and preserving the alpha channel.
+        /// </summary>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>The grayscale equivalent of the input color.</returns>
+        public static Color ToGrayscale(this Color color) {
+            var gray = (color.R + color.G + color.B) / 3;
+
+            return new Color(gray, gray, gray, color.A);
+        }
     }
 
 }

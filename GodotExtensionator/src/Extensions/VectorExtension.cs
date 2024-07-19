@@ -585,6 +585,14 @@ namespace GodotExtensionator {
         }
 
         /// <summary>
+        /// Calculates the barycenter (centroid) of a collection of 3D points.
+        /// </summary>
+        /// <param name="points">The collection of Vector3 points representing positions in 3D space.</param>
+        /// <returns>The calculated barycenter as a Vector3.</returns>
+        public static Vector3 Barycenter(this IEnumerable<Vector3> points)
+            => points.Aggregate(Vector3.Zero, (accum, value) => accum + value) / points.Count();
+
+        /// <summary>
         /// Calculates the Manhattan distance between two 2D points.
         /// 
         /// The Manhattan distance is the sum of the absolute differences between the corresponding 

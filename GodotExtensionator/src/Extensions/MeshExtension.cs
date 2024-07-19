@@ -57,6 +57,18 @@ namespace GodotExtensionator {
         }
 
         /// <summary>
+        /// Calculates the barycenter (centroid) of the vertices of a mesh.
+        /// </summary>
+        /// <param name="mesh">The mesh object from which to calculate the vertex barycenter.</param>
+        /// <returns>The calculated barycenter of the mesh's vertices as a Vector3.</returns>
+        public static Vector3 VerticesBarycenter(this Mesh mesh, int surfaceId = 0) {
+            var arrays = mesh.SurfaceGetArrays(surfaceId);
+            var vertices = (Vector3[])arrays[(int)Mesh.ArrayType.Vertex];
+
+            return vertices.Barycenter();
+        }
+
+        /// <summary>
         /// Checks if a 2D mesh instance has a valid mesh attached.
         /// </summary>
         /// <param name="meshInstance">The 2D mesh instance to check.</param>
