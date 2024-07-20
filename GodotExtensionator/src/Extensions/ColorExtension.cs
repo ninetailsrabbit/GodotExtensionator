@@ -66,6 +66,15 @@ namespace GodotExtensionator {
 
             return new Color(gray, gray, gray, color.A);
         }
+
+        /// <summary>
+        /// Calculates the midpoint color between two given colors.
+        /// </summary>
+        /// <param name="color">The first color.</param>
+        /// <param name="other">The second color.</param>
+        /// <returns>A new color representing the midpoint between the two input colors.</returns>
+        public static Color Midpoint(this Color color, Color other) => ((color - other) * 0.5f) + other;
+        
     }
 
 }

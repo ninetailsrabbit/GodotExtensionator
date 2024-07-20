@@ -593,6 +593,14 @@ namespace GodotExtensionator {
             => points.Aggregate(Vector3.Zero, (accum, value) => accum + value) / points.Count();
 
         /// <summary>
+        /// Calculates the midpoint between two 3D vectors.
+        /// </summary>
+        /// <param name="a">The first vector.</param>
+        /// <param name="b">The second vector.</param>
+        /// <returns>A new vector representing the midpoint between the two input vectors.</returns>
+        public static Vector3 Midpoint(this Vector3 vector, Vector3 other) => ((vector - other) * 0.5f) + other;
+
+        /// <summary>
         /// Calculates the Manhattan distance between two 2D points.
         /// 
         /// The Manhattan distance is the sum of the absolute differences between the corresponding 
