@@ -21,7 +21,7 @@ namespace GodotExtensionator {
         /// <param name="event">The InputEvent to check.</param>
         /// <returns>True if the event is a left mouse button click, false otherwise.</returns>
         public static bool IsMouseLeftClick(this InputEvent @event) {
-            
+
             if (@event is InputEventMouseButton button)
                 return button.ButtonIndex == MouseButton.Left && button.Pressed;
 
@@ -211,6 +211,51 @@ namespace GodotExtensionator {
             return InputMap.ActionGetEvents(action)
                 .Where((inputEvent) => inputEvent is InputEventJoypadButton || inputEvent is InputEventJoypadMotion);
         }
+
+        /// <summary>
+        /// Checks if any of the specified actions were just released.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were just released, false otherwise.</returns>
+        public static bool IsAnyActionJustReleased(IEnumerable<StringName> actions) => IsAnyActionJustReleased(actions);
+
+        /// <summary>
+        /// Checks if any of the specified actions were just pressed.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were just pressed, false otherwise.</returns>
+        public static bool IsAnyActionJustPressed(IEnumerable<StringName> actions) => IsAnyActionJustPressed(actions);
+        /// <summary>
+        /// Checks if any of the specified actions are currently pressed.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions are pressed, false otherwise.</returns>
+        public static bool IsAnyActionPressed(IEnumerable<StringName> actions) => IsAnyActionPressed(actions);
+
+        /// <summary>
+        /// Checks if any of the specified actions were just released.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were just released, false otherwise.</returns>
+        public static bool IsAnyActionJustReleased(IEnumerable<string> actions)
+            => actions.Where(action => InputMap.HasAction(action) && Input.IsActionJustReleased(action)).Any();
+
+        /// <summary>
+        /// Checks if any of the specified actions were just pressed.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were just pressed, false otherwise.</returns>
+        public static bool IsAnyActionJustPressed(IEnumerable<string> actions)
+            => actions.Where(action => InputMap.HasAction(action) && Input.IsActionJustPressed(action)).Any();
+
+        /// <summary>
+        /// Checks if any of the specified actions are currently pressed.
+        /// </summary>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions are pressed, false otherwise.</returns>
+        public static bool IsAnyActionPressed(IEnumerable<string> actions)
+            => actions.Where(action => InputMap.HasAction(action) && Input.IsActionPressed(action)).Any();
+
 
     }
 
