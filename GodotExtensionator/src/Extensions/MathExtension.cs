@@ -1,4 +1,6 @@
-﻿namespace GodotExtensionator {
+﻿using Godot;
+
+namespace GodotExtensionator {
     public static partial class MathExtension {
 
         /// <summary>
@@ -20,6 +22,13 @@
         /// <param name="delta">The delta time value to convert (usually in units per frame).</param>
         /// <returns>The delta time converted to seconds.</returns>
         public static double DeltaToTime(this double delta) => 1d / delta * 0.001d;
+
+        /// <summary>
+        /// Returns a sinusoidal value between 0 and 1 based on the current time and a given rate.
+        /// </summary>
+        /// <param name="rate">The rate of oscillation.</param>
+        /// <returns>A floating-point value between 0 and 1 representing the sine of the time-based angle.</returns>
+        public static float SinTime(float rate) => (Mathf.Sin((Time.GetTicksMsec() / 1000f) * rate * Mathf.Pi) + 1) / 2;
 
     }
 }

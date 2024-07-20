@@ -53,6 +53,20 @@ namespace GodotExtensionator {
         public static Vector2 WorldToScreen(this Viewport viewport, Vector2 worldPosition) => viewport.CanvasTransform * worldPosition;
 
         /// <summary>
+        /// Gets the world position of the mouse cursor relative to the node's global transform.
+        /// </summary>
+        /// <param name="node">The node to use as a reference.</param>
+        /// <returns>The world position of the mouse cursor.</returns>
+        public static Vector2 GetWorldMousePosition(this Node node) => GetWorldMousePosition(node.GetViewport());
+
+        /// <summary>
+        /// Gets the world position of the mouse cursor relative to the viewport's coordinate system.
+        /// </summary>
+        /// <param name="viewport">The viewport to use as a reference.</param>
+        /// <returns>The world position of the mouse cursor.</returns>
+        public static Vector2 GetWorldMousePosition(this Viewport viewport) => viewport.CanvasTransform.AffineInverse() * viewport.GetMousePosition();
+
+        /// <summary>
         /// Captures a screenshot of the content currently displayed in the Viewport.
         /// </summary>
         /// <param name="viewport">The Viewport to capture a screenshot of.</param>
