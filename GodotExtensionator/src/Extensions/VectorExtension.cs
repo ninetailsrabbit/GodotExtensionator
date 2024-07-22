@@ -584,6 +584,7 @@ namespace GodotExtensionator {
             return direction.X.IsNotZero() && direction.Y.IsNotZero() && direction.Z.IsNotZero();
         }
 
+
         /// <summary>
         /// Calculates the barycenter (centroid) of a collection of 3D points.
         /// </summary>
@@ -781,7 +782,6 @@ namespace GodotExtensionator {
 
             return c.Dot(b.Normalized()) / b.Length();
         }
-
     }
 
 }

@@ -256,6 +256,39 @@ namespace GodotExtensionator {
         public static bool IsAnyActionPressed(IEnumerable<string> actions)
             => actions.Where(action => InputMap.HasAction(action) && Input.IsActionPressed(action)).Any();
 
+        /// <summary>
+        /// Checks if any of the specified actions are currently pressed.
+        /// </summary>
+        /// <param name="event">The current InputEvent</param>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions are pressed, false otherwise.</returns>
+        public static bool IsAnyActionPressed(this InputEvent @event, IEnumerable<StringName> actions) => IsAnyActionPressed(@event, actions);
+
+        /// <summary>
+        /// Checks if any of the specified actions are currently pressed.
+        /// </summary>
+        /// <param name="event">The current InputEvent</param>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions are pressed, false otherwise.</returns>
+        public static bool IsAnyActionPressed(this InputEvent @event, IEnumerable<string> actions)
+            => actions.Where(action => InputMap.HasAction(action) && @event.IsActionPressed(action)).Any();
+
+        /// <summary>
+        /// Checks if any of the specified actions were released.
+        /// </summary>
+        /// <param name="event">The current InputEvent</param>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were released, false otherwise.</returns>
+        public static bool IsAnyActionReleased(this InputEvent @event, IEnumerable<StringName> actions) => IsAnyActionReleased(@event, actions);
+
+        /// <summary>
+        /// Checks if any of the specified actions were released.
+        /// </summary>
+        /// <param name="event">The current InputEvent</param>
+        /// <param name="actions">An enumerable collection of action names.</param>
+        /// <returns>True if any of the actions were released, false otherwise.</returns>
+        public static bool IsAnyActionReleased(this InputEvent @event, IEnumerable<string> actions)
+            => actions.Where(action => InputMap.HasAction(action) && @event.IsActionReleased(action)).Any();
 
     }
 
