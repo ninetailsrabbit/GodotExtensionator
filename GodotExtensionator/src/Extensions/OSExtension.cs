@@ -59,8 +59,11 @@ namespace GodotExtensionator {
         /// <summary>
         /// Checks if the current operating system is SteamOS, indicating a Steam Deck device.
         /// </summary>
-        /// <returns>True if the OS name (case-insensitive) is "SteamOS", false otherwise.</returns>
-        public static bool IsSteamDeck() => OS.GetDistributionName().EqualsIgnoreCase("SteamOS");
+        /// <returns>True if the OS name (case-insensitive) is "SteamOS" or contains any hardware specification related to SteamDeck, false otherwise.</returns>
+        public static bool IsSteamDeck() 
+            => OS.GetDistributionName().EqualsIgnoreCase("SteamOS") || 
+                RenderingServer.GetRenderingDevice().GetDeviceName().Contains("radv vangogh", StringComparison.CurrentCultureIgnoreCase) ||
+                OS.GetProcessorName().Contains("amd custom apu 0405", StringComparison.CurrentCultureIgnoreCase);
 
         /// <summary>
         /// Checks if the current project is an exported release build.
