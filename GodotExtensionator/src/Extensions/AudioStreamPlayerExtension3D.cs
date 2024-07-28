@@ -4,7 +4,7 @@ namespace GodotExtensionator {
     public static class AudioStreamPlayer3DExtension {
         private static readonly RandomNumberGenerator _rng = new();
 
-        public static readonly float VOLUME_DB_INAUDIBLE = -80f;
+        public static readonly float VolumeDBInaudible = -80f;
 
         /// <summary>
         /// Plays the AudioStreamPlayer3D's stream with a specified pitch.
@@ -48,7 +48,7 @@ namespace GodotExtensionator {
 
             if (audioPlayer.HasStream()) {
                 float originalVolumeDb = audioPlayer.VolumeDb;
-                audioPlayer.VolumeDb = VOLUME_DB_INAUDIBLE;
+                audioPlayer.VolumeDb = VolumeDBInaudible;
 
                 Tween tween = audioPlayer.GetTree().CreateTween();
                 tween.TweenProperty(audioPlayer, "volume_db", originalVolumeDb, Mathf.Max(.1f, Mathf.Abs(duration)))
@@ -71,7 +71,7 @@ namespace GodotExtensionator {
         public static void PlayEaseWithPitch(this AudioStreamPlayer3D audioPlayer, float duration = 1f, float pitch = 0.9f) {
             if (audioPlayer.HasStream()) {
                 float originalVolumeDb = audioPlayer.VolumeDb;
-                audioPlayer.VolumeDb = VOLUME_DB_INAUDIBLE;
+                audioPlayer.VolumeDb = VolumeDBInaudible;
 
                 Tween tween = audioPlayer.GetTree().CreateTween();
                 tween.TweenProperty(audioPlayer, "volume_db", originalVolumeDb, Mathf.Max(.1f, Mathf.Abs(duration)))
@@ -92,7 +92,7 @@ namespace GodotExtensionator {
             if (audioPlayer.HasStream()) {
                 float originalVolumeDb = audioPlayer.VolumeDb;
 
-                audioPlayer.VolumeDb = VOLUME_DB_INAUDIBLE;
+                audioPlayer.VolumeDb = VolumeDBInaudible;
 
                 Tween tween = audioPlayer.GetTree().CreateTween();
                 tween.TweenProperty(audioPlayer, "volume_db", originalVolumeDb, Mathf.Max(.1f, Mathf.Abs(duration)))

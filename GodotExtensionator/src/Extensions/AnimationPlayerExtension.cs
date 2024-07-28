@@ -3,7 +3,7 @@
 namespace GodotExtensionator {
     public static class AnimationPlayerExtension {
 
-        const string RESET_ANIMATION = "RESET";
+        const string ResetAnimation = "RESET";
 
         /// <summary>
         /// Returns a `SignalAwaiter` that awaits the `AnimationStarted` signal from the specified `AnimationPlayer`.
@@ -80,8 +80,8 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="animationPlayer">The `AnimationPlayer` instance to reset.</param>
         public static void Reset(this AnimationPlayer animationPlayer) {
-            if (animationPlayer.HasAnimation(RESET_ANIMATION))
-                animationPlayer.Queue(RESET_ANIMATION);
+            if (animationPlayer.HasAnimation(ResetAnimation))
+                animationPlayer.Queue(ResetAnimation);
         }
 
         /// <summary>

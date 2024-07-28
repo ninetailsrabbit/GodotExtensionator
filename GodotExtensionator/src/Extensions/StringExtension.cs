@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace GodotExtensionator {
     public static partial class StringExtension {
 
-        public static readonly string HEX_CHARACTERS = "0123456789ABCDEF";
+        public static readonly string HexCharacters = "0123456789ABCDEF";
 
         /// <summary>
         /// Alternative version from HexToint(). Converts a hexadecimal string to its corresponding decimal value.
@@ -17,7 +17,7 @@ namespace GodotExtensionator {
             float value;
 
             foreach (char c in hex.StripEdges().Reverse()) {
-                value = HEX_CHARACTERS.IndexOf(c.ToString(), System.StringComparison.CurrentCultureIgnoreCase);
+                value = HexCharacters.IndexOf(c.ToString(), System.StringComparison.CurrentCultureIgnoreCase);
 
                 if (value == -1)
                     return -1;
