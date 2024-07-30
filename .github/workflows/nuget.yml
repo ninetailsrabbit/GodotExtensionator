@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: nugetPackage
-          path: Extensionator/bin/Release
+          path: GodotExtensionator/bin/Release
 
   release:
     runs-on: ubuntu-latest
