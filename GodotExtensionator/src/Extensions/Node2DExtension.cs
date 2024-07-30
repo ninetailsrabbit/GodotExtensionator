@@ -62,6 +62,16 @@ namespace GodotExtensionator {
         public static Vector2 LocalDirectionTo(this Node2D node, Node2D target) => node.Position.DirectionTo(target.Position);
 
         /// <summary>
+        /// Rotates a Node2D towards another Node2D over time.
+        /// </summary>
+        /// <param name="from">The Node2D to rotate.</param>
+        /// <param name="to">The target Node2D to face.</param>
+        /// <param name="lerpWeight">The interpolation weight for rotation, between 0 and 1. Higher values result in faster rotation.</param>
+        public static void RotateToward(this Node2D from, Node2D to, float lerpWeight = 0.5f) {
+            from.Rotation = Mathf.LerpAngle(from.Rotation, from.GlobalDirectionTo(to).Angle(), Mathf.Clamp(lerpWeight, 0f, 1f));
+        }
+
+        /// <summary>
         /// Calculates the absolute Z-index of a Node2D by recursively summing its own Z-index and parent Node2D's Z-index as long as the parent uses relative positioning.
         /// </summary>
         /// <param name="node">The Node2D for which to calculate the absolute Z-index.</param>

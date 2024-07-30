@@ -61,6 +61,16 @@ namespace GodotExtensionator {
         public static Vector3 LocalDirectionTo(this Node3D node, Node3D target) => node.Position.DirectionTo(target.Position);
 
         /// <summary>
+        /// Rotates a Node3D towards another Node3D over time using Slerp interpolation.
+        /// </summary>
+        /// <param name="from">The Node3D to rotate.</param>
+        /// <param name="to">The target Node3D to face.</param>
+        /// <param name="lerpWeight">The interpolation weight for rotation, between 0 and 1. Higher values result in faster rotation.</param>
+        public static void RotateToward(this Node3D from, Node3D to, float lerpWeight = 0.5f) {
+            from.Basis = from.Basis.Slerp(Basis.LookingAt(from.GlobalDirectionTo(to)), lerpWeight);
+        }
+
+        /// <summary>
         /// Finds the nearest Node3D within a specified distance range from a given Node3D.
         /// </summary>
         /// <param name="node">The Node3D from which to find the nearest neighbor.</param>
