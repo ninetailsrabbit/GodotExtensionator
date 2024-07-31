@@ -71,6 +71,26 @@ namespace GodotExtensionator {
         }
 
         /// <summary>
+        /// Aligns a Node3D with another Node3D in position and/or rotation.
+        /// </summary>
+        /// <param name="from">The Node3D to be aligned.</param>
+        /// <param name="to">The target Node3D to align with.</param>
+        /// <param name="alignPosition">If true, the position of the "from" Node3D will be set to zero relative to the "to" Node3D (default: true).</param>
+        /// <param name="alignRotation">If true, the rotation of the "from" Node3D will be set to zero (default: true).</param>
+        public static void AlignWithNode(this Node3D from, Node3D to, bool alignPosition = true, bool alignRotation = true) {
+            var originalParent = from.GetParent();
+            from.Reparent(to, false);
+
+            if (alignPosition)
+                from.Position = Vector3.Zero;
+
+            if (alignRotation)
+                from.Rotation = Vector3.Zero;
+
+            from.Reparent(originalParent);
+        }
+
+        /// <summary>
         /// Finds the nearest Node3D within a specified distance range from a given Node3D.
         /// </summary>
         /// <param name="node">The Node3D from which to find the nearest neighbor.</param>

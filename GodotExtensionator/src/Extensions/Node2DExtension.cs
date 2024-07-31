@@ -72,6 +72,25 @@ namespace GodotExtensionator {
         }
 
         /// <summary>
+        /// Aligns a Node3D with another Node2D in position and/or rotation.
+        /// </summary>
+        /// <param name="from">The Node2D to be aligned.</param>
+        /// <param name="to">The target Node2D to align with.</param>
+        /// <param name="alignPosition">If true, the position of the "from" Node2D will be set to zero relative to the "to" Node2D (default: true).</param>
+        /// <param name="alignRotation">If true, the rotation of the "from" Node2D will be set to zero (default: true).</param>
+        public static void AlignWithNode(this Node2D from, Node2D to, bool alignPosition = true, bool alignRotation = true) {
+            var originalParent = from.GetParent();
+            from.Reparent(to, false);
+
+            if (alignPosition)
+                from.Position = Vector2.Zero;
+
+            if (alignRotation)
+                from.Rotation = 0;
+
+            from.Reparent(originalParent);
+        }
+        /// <summary>
         /// Calculates the absolute Z-index of a Node2D by recursively summing its own Z-index and parent Node2D's Z-index as long as the parent uses relative positioning.
         /// </summary>
         /// <param name="node">The Node2D for which to calculate the absolute Z-index.</param>
