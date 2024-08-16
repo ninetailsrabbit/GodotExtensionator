@@ -16,7 +16,7 @@
 
 	<PropertyGroup>
 		<Title>Ninetailsrabbit.GodotExtensionator</Title>
-		<Version>0.6.4</Version>
+		<Version>0.7.0</Version>
 		<Description>Boost your Godot workflow with GodotExtensionator</Description>
 		<Copyright>© 2024 Ninetailsrabbit</Copyright>
 		<Authors>Ninetailsrabbit</Authors>
@@ -42,8 +42,8 @@
 
 	<ItemGroup>
 		<!-- Dependencies go here. -->
-		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.2.2" />
-		<PackageReference Include="GodotSharp" Version="4.2.2" />
+		<PackageReference Include="Ninetailsrabbit.Extensionator" Version="0.2.3" />
+		<PackageReference Include="GodotSharp" Version="4.3.0" />
 	</ItemGroup>
 
 </Project>
