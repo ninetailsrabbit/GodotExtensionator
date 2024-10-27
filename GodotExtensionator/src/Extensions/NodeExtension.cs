@@ -3,9 +3,11 @@ using Godot;
 using Godot.Collections;
 using System.Text.RegularExpressions;
 
-namespace GodotExtensionator {
+namespace GodotExtensionator
+{
 
-    public static partial class NodeExtension {
+    public static partial class NodeExtension
+    {
         // A regular expression to detect original node names
         public static readonly Regex NameRegex = NameRegexGenerated();
 
@@ -16,7 +18,8 @@ namespace GodotExtensionator {
         /// Enables processing for the Node. The node will be processed during the engine's update loop according to its inherited process mode.
         /// </summary>
         /// <param name="node">The Node to enable processing for.</param>
-        public static void Enable(this Node node) {
+        public static void Enable(this Node node)
+        {
             node.ProcessMode = Node.ProcessModeEnum.Inherit;
         }
 
@@ -24,7 +27,8 @@ namespace GodotExtensionator {
         /// Disables processing for the Node. The node will not be processed during the engine's update loop.
         /// </summary>
         /// <param name="node">The Node to disable processing for.</param>
-        public static void Disable(this Node node) {
+        public static void Disable(this Node node)
+        {
             node.ProcessMode = Node.ProcessModeEnum.Disabled;
         }
 
@@ -32,7 +36,8 @@ namespace GodotExtensionator {
         /// Makes the Node process even when the scene is paused. The node will be processed during every frame update, regardless of the pause state.
         /// </summary>
         /// <param name="node">The Node to configure for always processing.</param>
-        public static void AlwaysProcess(this Node node) {
+        public static void AlwaysProcess(this Node node)
+        {
             node.ProcessMode = Node.ProcessModeEnum.Always;
         }
 
@@ -41,7 +46,8 @@ namespace GodotExtensionator {
         /// when the scene is unpaused.
         /// </summary>
         /// <param name="node">The Node to configure for processing when paused.</param>
-        public static void ProcessWhenPaused(this Node node) {
+        public static void ProcessWhenPaused(this Node node)
+        {
             node.ProcessMode = Node.ProcessModeEnum.WhenPaused;
         }
 
@@ -49,7 +55,8 @@ namespace GodotExtensionator {
         /// Enables all child nodes recursively within the current node.
         /// </summary>
         /// <param name="node">The Node whose children should be enabled.</param>
-        public static void EnableChildrens(this Node node) {
+        public static void EnableChildrens(this Node node)
+        {
             foreach (var child in node.GetAllChildren())
                 child.Enable();
         }
@@ -58,7 +65,8 @@ namespace GodotExtensionator {
         /// Disables all child nodes recursively within the current node.
         /// </summary>
         /// <param name="node">The Node whose children should be disabled.</param>
-        public static void DisableChildrens(this Node node) {
+        public static void DisableChildrens(this Node node)
+        {
             foreach (var child in node.GetAllChildren())
                 child.Disable();
         }
@@ -67,7 +75,8 @@ namespace GodotExtensionator {
         /// Remove all the groups this node it's attached
         /// </summary>
         /// <param name="node"></param>
-        public static void RemoveFromAllGroups(this Node node) {
+        public static void RemoveFromAllGroups(this Node node)
+        {
             foreach (var group in node.GetGroups())
                 node.RemoveFromGroup(group);
         }
@@ -76,7 +85,8 @@ namespace GodotExtensionator {
         /// Attempts to mark the input as handled for the viewport associated with the specified node, if the node is valid.
         /// </summary>
         /// <param name="node">The node for which to handle input.</param>
-        public static void HandleInput(this Node node) {
+        public static void HandleInput(this Node node)
+        {
             if (node.IsValid())
                 node.GetViewport()?.SetInputAsHandled();
         }
@@ -101,8 +111,10 @@ namespace GodotExtensionator {
         /// <typeparam name="T">The type of the autoload node to add.</typeparam>
         /// <param name="from">The node to add the autoload node to.</param>
         /// <exception cref="ArgumentNullException">Thrown if the provided autoloadNode is null.</exception>
-        public static void AddAutoload<T>(this Node from) where T : Node {
-            if (from.IsValid() && from.GetAutoloadNode<T>() is null) {
+        public static void AddAutoload<T>(this Node from) where T : Node
+        {
+            if (from.IsValid() && from.GetAutoloadNode<T>() is null)
+            {
 
                 var autoload = Activator.CreateInstance(typeof(T)) as Node;
 
@@ -124,7 +136,8 @@ namespace GodotExtensionator {
         /// <param name="name">The name of the autoloaded node in the scene tree. 
         ///  If null (default), the name of type T will be used for retrieval.</param>
         /// <returns>The autoloaded node of type T, or null if no node is found.</returns>
-        public static T GetAutoloadNode<T>(this Node node, string? name = null) where T : class {
+        public static T GetAutoloadNode<T>(this Node node, string? name = null) where T : class
+        {
             return node.GetTree().GetAutoloadNode<T>(name is not null ? name : typeof(T).Name);
         }
 
@@ -134,13 +147,15 @@ namespace GodotExtensionator {
         /// <typeparam name="T">The base type to search for (can be any class).</typeparam>
         /// <param name="node">The starting node for the search.</param>
         /// <returns>A list containing all child nodes of a type assignable to T found recursively within the hierarchy.</returns>
-        public static List<T> GetNodesByClass<T>(this Node node) where T : class {
+        public static List<T> GetNodesByClass<T>(this Node node) where T : class
+        {
             if (node.GetChildCount().IsZero())
                 return [];
 
             List<T> result = [];
 
-            foreach (Node child in node.GetChildren(true)) {
+            foreach (Node child in node.GetChildren(true))
+            {
                 if (child is T nodeFound && typeof(T).IsAssignableFrom(child.GetType()))
                     result.Add(nodeFound);
                 else
@@ -156,13 +171,15 @@ namespace GodotExtensionator {
         /// <typeparam name="T">The type of node to search for (must inherit from Node).</typeparam>
         /// <param name="node">The starting node for the search.</param>
         /// <returns>A list containing all child nodes of type T found recursively within the hierarchy.</returns>
-        public static List<T> GetNodesByType<T>(this Node node) where T : Node {
+        public static List<T> GetNodesByType<T>(this Node node) where T : Node
+        {
             if (node.GetChildCount().IsZero())
                 return [];
 
             List<T> result = [];
 
-            foreach (Node child in node.GetChildren(true)) {
+            foreach (Node child in node.GetChildren(true))
+            {
                 if (child is T nodeFound && child.GetType() == typeof(T))
                     result.Add(nodeFound);
                 else
@@ -183,11 +200,13 @@ namespace GodotExtensionator {
         /// If you require a more flexible search that includes derived types of `T`, use the `FirstNodeOfClass` method instead.
         /// </remarks>
 #nullable enable
-        public static T? FirstNodeOfType<T>(this Node node) where T : Node {
+        public static T? FirstNodeOfType<T>(this Node node) where T : Node
+        {
             if (node.GetChildCount().IsZero())
                 return null;
 
-            foreach (Node child in node.GetChildren(true)) {
+            foreach (Node child in node.GetChildren(true))
+            {
                 if (child is T nodeFound && child.GetType() == typeof(T))
                     return nodeFound;
             }
@@ -207,11 +226,13 @@ namespace GodotExtensionator {
         /// </remarks>
         /// 
 #nullable enable
-        public static T? FirstNodeOfClass<T>(this Node node) where T : Node {
+        public static T? FirstNodeOfClass<T>(this Node node) where T : Node
+        {
             if (node.GetChildCount().IsZero())
                 return null;
 
-            foreach (Node child in node.GetChildren(true)) {
+            foreach (Node child in node.GetChildren(true))
+            {
                 if (child is T nodeFound && typeof(T).IsAssignableFrom(child.GetType()))
                     return nodeFound;
             }
@@ -227,7 +248,8 @@ namespace GodotExtensionator {
         /// 
 
 #nullable enable
-        public static Node? GetLastChild(this Node node) {
+        public static Node? GetLastChild(this Node node)
+        {
             int count = node.GetChildCount();
 
             if (count.IsZero())
@@ -242,7 +264,8 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="node">The Node from which to retrieve the ancestor chain.</param>
         /// <returns>An Array containing all ancestor Nodes of the specified type `T`.</returns>
-        public static Array<T> GetAllAncestors<[MustBeVariant] T>(this Node node) where T : Node {
+        public static Array<T> GetAllAncestors<[MustBeVariant] T>(this Node node) where T : Node
+        {
             T parent = node.GetParentOrNull<T>();
 
             if (parent == null)
@@ -250,7 +273,8 @@ namespace GodotExtensionator {
 
             Array<T> ancestors = [];
 
-            while (parent is not null) {
+            while (parent is not null)
+            {
                 ancestors.Add(parent);
                 parent = parent.GetParentOrNull<T>();
             }
@@ -264,16 +288,19 @@ namespace GodotExtensionator {
         /// <param name="node">The Node from which to retrieve the ancestor chain.</param>
         /// <returns>An Array containing all ancestor Nodes.</returns>
 
-        public static Array<Node> GetAllAncestors(this Node node) {
+        public static Array<Node> GetAllAncestors(this Node node)
+        {
             Node parent = node.GetParentOrNull<Node>();
 
-            if (parent == null) {
+            if (parent == null)
+            {
                 return [];
             }
 
             Array<Node> ancestors = [];
 
-            while (parent is not null) {
+            while (parent is not null)
+            {
                 ancestors.Add(parent);
                 parent = parent.GetParentOrNull<Node>();
             }
@@ -289,13 +316,16 @@ namespace GodotExtensionator {
         /// <param name="node">The Node from which to retrieve all child Nodes.</param>
         /// <returns>An Array containing all child Nodes of the specified type `T`.</returns>
 
-        public static Array<T> GetAllChildren<[MustBeVariant] T>(this Node node) where T : Node {
+        public static Array<T> GetAllChildren<[MustBeVariant] T>(this Node node) where T : Node
+        {
             Array<T> childrens = [];
 
-            foreach (T child in node.GetChildren(true).OfType<T>()) {
+            foreach (T child in node.GetChildren(true).OfType<T>())
+            {
                 childrens.Add(child);
 
-                if (child.GetChildCount() > 0) {
+                if (child.GetChildCount() > 0)
+                {
                     childrens.AddRange(GetAllChildren<T>(child));
                 }
             }
@@ -308,13 +338,16 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="node">The Node from which to retrieve all child Nodes.</param>
         /// <returns>An Array containing all child Nodes.</returns>
-        public static Array<Node> GetAllChildren(this Node node) {
+        public static Array<Node> GetAllChildren(this Node node)
+        {
             Array<Node> childrens = [];
 
-            foreach (Node child in node.GetChildren(true)) {
+            foreach (Node child in node.GetChildren(true))
+            {
                 childrens.Add(child);
 
-                if (child.GetChildCount() > 0) {
+                if (child.GetChildCount() > 0)
+                {
                     childrens.AddRange(GetAllChildren(child));
                 }
             }
@@ -326,8 +359,10 @@ namespace GodotExtensionator {
         /// Safely removes a Node from the scene hierarchy, considering its current state.
         /// </summary>
         /// <param name="node">The Node to be removed.</param>
-        public static void Remove(this Node node) {
-            if (node.IsValid()) {
+        public static void Remove(this Node node)
+        {
+            if (node.IsValid())
+            {
                 if (node.IsInsideTree())
                     node.QueueFree();
                 else
@@ -377,11 +412,14 @@ namespace GodotExtensionator {
         /// This function iterates through the children of the target node in reverse order, removing each child and queuing it for freeing.
         /// Using reverse iteration ensures that removing a child doesn't affect the index of remaining children.
         /// </remarks>
-        public static void RemoveAndQueueFreeChildren(this Node node) {
-            for (int i = node.GetChildCount() - 1; i >= 0; i--) {
+        public static void RemoveAndQueueFreeChildren(this Node node)
+        {
+            for (int i = node.GetChildCount() - 1; i >= 0; i--)
+            {
                 Node child = node.GetChild(i);
 
-                if (child.IsValid()) {
+                if (child.IsValid())
+                {
                     node.RemoveChild(child);
                     child.QueueFree();
                 }
@@ -397,8 +435,10 @@ namespace GodotExtensionator {
         /// This function iterates through the children of the target node and queues each child for freeing.
         /// No type check is necessary as `GetChildren()` returns a collection of nodes.
         /// </remarks>
-        public static void QueueFreeChildren(this Node node) {
-            foreach (Node child in node.GetChildren()) {
+        public static void QueueFreeChildren(this Node node)
+        {
+            foreach (Node child in node.GetChildren())
+            {
                 if (child.IsValid())
                     child.QueueFree();
             }
@@ -408,7 +448,8 @@ namespace GodotExtensionator {
         /// Set the owner node to edited scene root if Engine is editor hint.
         /// </summary>
         /// <param name="node">The target node</param>
-        public static void SetOwnerToEditedSceneRoot(this Node node) {
+        public static void SetOwnerToEditedSceneRoot(this Node node)
+        {
             if (Engine.IsEditorHint())
                 node.Owner = node.GetTree().EditedSceneRoot;
         }
@@ -422,10 +463,12 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="node">The Node for which to calculate the depth.</param>
         /// <returns>The depth of the Node within the scene hierarchy (0 for the root node, increasing values for child nodes).</returns>
-        public static int GetTreeDepth(this Node node) {
+        public static int GetTreeDepth(this Node node)
+        {
             int depth = 0;
 
-            while (node.GetParent() is not null) {
+            while (node.GetParent() is not null)
+            {
                 depth++;
                 node = node.GetParent();
             }
@@ -447,10 +490,12 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="node">The Node on which to emit the signal.</param>
         /// <param name="signalName">The name of the signal to emit.</param>
-        public static void EmitSignalSafe(this Node node, string signalName, params Variant[] args) {
+        public static void EmitSignalSafe(this Node node, string signalName, params Variant[] args)
+        {
             if (node.IsValid() && node.HasSignal(signalName))
                 node.EmitSignal(signalName, args ?? []);
         }
+
 
     }
 }

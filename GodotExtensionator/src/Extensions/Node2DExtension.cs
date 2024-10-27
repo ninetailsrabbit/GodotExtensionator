@@ -1,7 +1,9 @@
 ﻿using Godot;
 
-namespace GodotExtensionator {
-    public static class Node2DExtension {
+namespace GodotExtensionator
+{
+    public static class Node2DExtension
+    {
         /// <summary>
         /// Get the mouse direction this node is pointing to
         /// </summary>
@@ -67,7 +69,8 @@ namespace GodotExtensionator {
         /// <param name="from">The Node2D to rotate.</param>
         /// <param name="to">The target Node2D to face.</param>
         /// <param name="lerpWeight">The interpolation weight for rotation, between 0 and 1. Higher values result in faster rotation.</param>
-        public static void RotateToward(this Node2D from, Node2D to, float lerpWeight = 0.5f) {
+        public static void RotateToward(this Node2D from, Node2D to, float lerpWeight = 0.5f)
+        {
             from.Rotation = Mathf.LerpAngle(from.Rotation, from.GlobalDirectionTo(to).Angle(), Mathf.Clamp(lerpWeight, 0f, 1f));
         }
 
@@ -78,7 +81,8 @@ namespace GodotExtensionator {
         /// <param name="to">The target Node2D to align with.</param>
         /// <param name="alignPosition">If true, the position of the "from" Node2D will be set to zero relative to the "to" Node2D (default: true).</param>
         /// <param name="alignRotation">If true, the rotation of the "from" Node2D will be set to zero (default: true).</param>
-        public static void AlignWithNode(this Node2D from, Node2D to, bool alignPosition = true, bool alignRotation = true) {
+        public static void AlignWithNode(this Node2D from, Node2D to, bool alignPosition = true, bool alignRotation = true)
+        {
             var originalParent = from.GetParent();
             from.Reparent(to, false);
 
@@ -95,10 +99,12 @@ namespace GodotExtensionator {
         /// </summary>
         /// <param name="node">The Node2D for which to calculate the absolute Z-index.</param>
         /// <returns>The absolute Z-index value, representing the node's stacking order within the scene.</returns>
-        public static int GetAbsoluteZIndex(this Node2D node) {
+        public static int GetAbsoluteZIndex(this Node2D node)
+        {
             int absoluteZ = 0;
 
-            while (node is not null) {
+            while (node is not null)
+            {
                 absoluteZ += node.ZIndex;
 
                 if (!node.ZAsRelative)
@@ -118,14 +124,17 @@ namespace GodotExtensionator {
         /// <param name="minDistance">The minimum distance threshold (inclusive) for considering a node as a neighbor (default: 0.0f).</param>
         /// <param name="maxDistance">The maximum distance threshold (inclusive) for considering a node as a neighbor (default: 9999.0f).</param>
         /// <returns>A Node2D object containing the farthest Node2D and its distance, or null if no nodes are found within the range.</returns>
-        public static Node2D? GetNearestNodeByDistance(this Node2D node, IEnumerable<Node2D> nodes, float minDistance = 0.0f, float maxDistance = 9999.0f) {
+        public static Node2D? GetNearestNodeByDistance(this Node2D node, IEnumerable<Node2D> nodes, float minDistance = 0.0f, float maxDistance = 9999.0f)
+        {
             Node2D? foundNode = null;
             float previousDistance = 0.0f;
 
-            foreach (var targetNode in nodes.Where((child) => child.IsValid() && child.IsInsideTree() && !child.Equals(node))) {
+            foreach (var targetNode in nodes.Where((child) => child.IsValid() && child.IsInsideTree() && !child.Equals(node)))
+            {
                 float distanceToTarget = node.GlobalDistanceTo(targetNode);
 
-                if (distanceToTarget >= minDistance && distanceToTarget <= maxDistance && (foundNode == null || distanceToTarget < previousDistance)) {
+                if (distanceToTarget >= minDistance && distanceToTarget <= maxDistance && (foundNode == null || distanceToTarget < previousDistance))
+                {
                     foundNode = targetNode;
                     previousDistance = distanceToTarget;
                 }
@@ -144,14 +153,17 @@ namespace GodotExtensionator {
         /// <param name="minDistance">The minimum distance threshold (inclusive) for considering a node as a neighbor (default: 0.0f).</param>
         /// <param name="maxDistance">The maximum distance threshold (inclusive) for considering a node as a neighbor (default: 9999.0f).</param>
         /// <returns>A Node2D object containing the nearest Node2D and its distance, or null if no nodes are found within the range.</returns>
-        public static Node2D? GetFarthestNodeByDistance(this Node2D node, IEnumerable<Node2D> nodes, float minDistance = 0.0f, float maxDistance = 9999.0f) {
+        public static Node2D? GetFarthestNodeByDistance(this Node2D node, IEnumerable<Node2D> nodes, float minDistance = 0.0f, float maxDistance = 9999.0f)
+        {
             Node2D? foundNode = null;
             float previousDistance = 0.0f;
 
-            foreach (var targetNode in nodes.Where((child) => child.IsValid() && child.IsInsideTree() && !child.Equals(node))) {
+            foreach (var targetNode in nodes.Where((child) => child.IsValid() && child.IsInsideTree() && !child.Equals(node)))
+            {
                 float distanceToTarget = node.GlobalDistanceTo(targetNode);
 
-                if (distanceToTarget >= minDistance && distanceToTarget <= maxDistance && (foundNode == null || distanceToTarget > previousDistance)) {
+                if (distanceToTarget >= minDistance && distanceToTarget <= maxDistance && (foundNode == null || distanceToTarget > previousDistance))
+                {
                     foundNode = targetNode;
                     previousDistance = distanceToTarget;
                 }
@@ -174,8 +186,10 @@ namespace GodotExtensionator {
         /// <param name="node">The Node2D to check for on-screen visibility.</param>
         /// <param name="margin">An optional margin (in pixels) to consider around the screen edges (default: 16.0f).</param>
         /// <returns>True if the node's position is within the visible screen area considering the margin, False otherwise.</returns>
-        public static bool OnScreen(this Node2D node, float margin = 16.0f) {
-            if (node.IsValid() && node.IsInsideTree()) {
+        public static bool OnScreen(this Node2D node, float margin = 16.0f)
+        {
+            if (node.IsValid() && node.IsInsideTree())
+            {
 
                 Rect2 screenRect = node.GetViewportRect();
                 screenRect.Position -= Vector2.One * margin;
@@ -185,6 +199,33 @@ namespace GodotExtensionator {
             }
 
             return false;
+        }
+
+
+        /// <summary>
+        /// Calculates the nearest grid point based on the mouse position and a specified size.
+        /// If the Sprite2D is in the scene tree, it also snaps the sprite's position to the calculated grid point.
+        /// </summary>
+        /// <param name="sprite">The Node2D representing the Sprite2D.</param>
+        /// <param name="size">The size of the grid cells in pixels.</param>
+        /// <param name="useLocalPosition">Whether to use local or global mouse position.</param>
+        /// <returns>The calculated grid position as a Vector2.</returns>
+        public static Vector2 MouseGridSnap(this Node2D node2D, int size, bool useLocalPosition = false)
+        {
+            if (node2D.IsInsideTree())
+            {
+                var mousePosition = useLocalPosition ? node2D.GetLocalMousePosition() : node2D.GetGlobalMousePosition();
+                var gridPosition = (mousePosition / size).Floor();
+
+                if (useLocalPosition)
+                    node2D.Position = gridPosition * size;
+                else
+                    node2D.GlobalPosition = gridPosition * size;
+
+                return gridPosition;
+            }
+
+            return Vector2.Zero;
         }
     }
 }
